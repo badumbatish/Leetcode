@@ -22,12 +22,14 @@ class Solution {
 public:
     int maxDepth(Node* root) {
         if (root == nullptr) return 0;
+
+        int max_elem = 1;
         std::vector<int> vec = {1};
 
         for (int i = 0; i < root->children.size(); i++) {
-            vec.push_back(1 + maxDepth(root->children[i]));
+            max_elem = max(max_elem, 1 + maxDepth(root->children[i]));
         }
 
-        return *std::max_element(vec.begin(), vec.end());
+        return max_elem;
     }
 };
