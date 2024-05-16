@@ -6,7 +6,9 @@ public:
             i--;
         }
 
-        if (i >= 0) {
+        std::cout << i << std::endl;
+
+        if (i >= 0) { // Get the next value from the current nums[i]
             int j = nums.size() - 1;
             while (nums[j] <= nums[i]) {
                 j--;
