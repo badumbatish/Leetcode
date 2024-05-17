@@ -3,20 +3,17 @@ public:
     bool isValid(string s) {
         std::stack<char> stck;
 
-        for (auto it = s.begin(); it != s.end(); it++) {
-            if (*it == '(' || *it == '{' || *it == '[' ) {
-                stck.push(*it);
+        for (auto ch : s) {
+            if (ch == '(' || ch == '{' || ch == '[') {
+                stck.push(ch);
             } else {
                 if (stck.empty()) return false;
 
                 auto match = stck.top();
                 stck.pop();
+                if (ch - match <= 2) continue;
 
-                if (match == '[' && *it == ']') continue;
-                if (match == '(' && *it == ')') continue;
-                if (match == '{' && *it == '}') continue;
-
-                return false;
+                else return false;
             }
         }
 
