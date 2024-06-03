@@ -1,6 +1,6 @@
 class Solution {
 public:
-    void moveZeroes(vector<int>& nums) {
+    void moveZeroes(std::vector<int> & nums) {
         int fast_ptr = 0;
         int slow_ptr = 0;
 
@@ -9,7 +9,5 @@ public:
                 swap(nums[fast_ptr], nums[slow_ptr++]);
             }
         }
-
-        
     }
 };
