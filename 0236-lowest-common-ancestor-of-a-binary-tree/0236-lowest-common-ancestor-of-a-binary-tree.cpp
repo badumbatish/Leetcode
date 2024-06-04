@@ -12,16 +12,13 @@ public:
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
         if (root == nullptr) return nullptr;
 
-        if (root->val == p->val) return p;
-        if (root->val == q->val) return q;
-
+        if (root->val == p->val || root->val == q->val) return root;
         auto a = lowestCommonAncestor(root->left, p, q);
         auto b = lowestCommonAncestor(root->right, p, q);
 
         if (a && b) return root;
         if (a) return a;
         if (b) return b;
-
         return nullptr;
     }
 };
