@@ -24,6 +24,7 @@ public:
 
     void dfs(int node, int parent) {
         for (auto &[neighbor, sign] : adj[node]) {
+            // since we know that it is a tree, we would be re-visiting if the neighbor is the parent
             if (neighbor == parent) continue;
 
             count += sign;
