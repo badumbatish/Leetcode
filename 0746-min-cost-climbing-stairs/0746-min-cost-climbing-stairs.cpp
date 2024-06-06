@@ -1,33 +1,21 @@
 class Solution {
-private:
-    std::unordered_map<int, int> u_map = {};
-
 public:
-    int minCostClimbingStairs(vector<int>& cost) {
+    int minCostClimbingStairs(std::vector<int> &cost) {
         cost.push_back(0);
-        return dp(cost.size() - 1, cost);
-    }
+        int down1 = 0;
+        int down2 = 0;
+        int current = cost[2];
 
-    int dp(int index, std::vector<int> &cost) {
-        // total cost of current = min(index - 2, index - 1) + current_cost
-        if (index == 0) {
-            u_map[0] = cost[0];
-            return cost[0];
-        }
-        if (index == 1) {
-            u_map[1] = cost[1];
-            return cost[1];
+        for (auto i = 2; i < cost.size(); i++) {
+            // From climb 1 step pov, you're paying cost[i-1] and the already minimum paid cost to climb the previous i-1 steps.
+
+            // From climb 2 step pov, you're paying cost[i-2] and the already minimum paid cost to climb the previous i-2 steps.
+            current = std::min(cost[i-1] + down1, cost[i-2] + down2);
+            down2 = down1;
+            down1 = current;
         }
 
-        if (u_map.find(index-1) == u_map.end()) {
-            u_map[index-1] = dp(index - 1, cost);
-        }
-        if (u_map.find(index-2) == u_map.end()) {
-            u_map[index-2] = dp(index - 2, cost);
-        }
-        if (u_map.find(index) == u_map.end()) {
-            u_map[index] = min(u_map[index-1], u_map[index-2]) + cost[index];
-        }
-        return u_map[index];
+        return current;
+
     }
 };
