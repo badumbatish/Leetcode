@@ -5,22 +5,11 @@ public:
         // n = 1 => 1
         // n = 2 => 1
         std::vector<int> result;
-
-        for (int i = 0; i <= n; i++) {
-            result.push_back(hammingWeight(i));
+        result.push_back(0);
+        for (int i = 1; i <= n; i++) {
+            result.push_back(result[i >> 1] + (i & 1));
         }
 
         return result;
-    }
-
-    int hammingWeight(int n) {
-        int count = 0;
-
-        while (n) {
-            count += (n % 2);
-            n /= 2;
-        }
-
-        return count;
     }
 };
