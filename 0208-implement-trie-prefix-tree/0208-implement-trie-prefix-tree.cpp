@@ -15,26 +15,23 @@ public:
         root = std::make_shared<Node>();
     }
     
-    void insert(string word) {
-        Node* current = root.get();
-        for (int i=0; i < word.size(); i++) {
-            if (!current->children[word[i]-'a']) 
-                current->children[word[i]-'a'] = std::make_shared<Node>();
-            current = current->children[word[i] - 'a'].get();   
-        }
-
-        current->flag = true;
-        
-    }
     
-    std::shared_ptr<Node> get_stem(std::string word) {
+    
+    std::shared_ptr<Node> get_stem(std::string word, bool auto_create = false) {
         auto current = root;
         for(int i = 0; i < word.size(); i++)
         {
-            if(!current->children[word[i]-'a']) return nullptr;
+            if(!current->children[word[i]-'a'] && auto_create == false) return nullptr;
+            if(!current->children[word[i]-'a'] && auto_create == true) 
+                current->children[word[i]-'a'] = std::make_shared<Node>();
             current = current->children[word[i]-'a'];
         }
         return current;
+    }
+
+    void insert(string word) {
+       auto stem = get_stem(word, true);
+       stem->flag = true;
     }
 
     bool search(string word) {
