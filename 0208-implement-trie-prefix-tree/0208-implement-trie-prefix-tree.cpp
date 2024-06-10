@@ -5,7 +5,7 @@
 class Node {
 public:
     std::array<std::unique_ptr<Node>, 26> children;
-    bool flag = false;
+    bool is_a_word = false;
 
     Node() = default; // Default constructor
 };
@@ -17,27 +17,26 @@ public:
     Trie() : root(std::make_unique<Node>()) {}
 
     void insert(const std::string& word) {
-        Node* stem = get_stem(word, true);
-        stem->flag = true;
+        auto stem = get_stem(word, true);
+        stem->is_a_word = true;
     }
 
     bool search(const std::string& word)  {
-        Node* stem = get_stem(word);
-        return stem != nullptr && stem->flag;
+        auto stem = get_stem(word);
+        return stem != nullptr && stem->is_a_word;
     }
 
     bool startsWith(const std::string& prefix)  {
-        Node* stem = get_stem(prefix);
+        auto stem = get_stem(prefix);
         return stem != nullptr;
     }
 
     Node* get_stem(const std::string& word, bool auto_create = false) {
-        Node* current = root.get();
+        auto current = root.get();
         for (char c : word) {
             auto& child = current->children[c - 'a'];
             if (!child && auto_create == false) return nullptr;
-            if (!child && auto_create == true) 
-                child = std::make_unique<Node>();
+            if (!child && auto_create == true)  child = std::make_unique<Node>();
             
             current = child.get();
         }
