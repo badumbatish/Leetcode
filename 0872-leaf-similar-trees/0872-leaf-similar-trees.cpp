@@ -16,14 +16,7 @@ public:
         traverse(root1, leaf_seq_1);
         traverse(root2, leaf_seq_2);
 
-        if (leaf_seq_1.size() != leaf_seq_2.size()) return false;
-
-        for (int i = 0; i < leaf_seq_1.size(); i++) 
-        {
-            if (leaf_seq_1[i] != leaf_seq_2[i]) return false;
-        }
-
-        return true;
+        return leaf_seq_1 == leaf_seq_2;
     }
 
     void traverse(TreeNode* root, std::vector<int>& vec) {
