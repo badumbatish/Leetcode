@@ -1,48 +1,47 @@
+#include <array>
+#include <memory>
+#include <string>
+
 class Node {
 public:
-    std::array<std::shared_ptr<Node>, 26> children;
-    bool flag;
+    std::array<std::unique_ptr<Node>, 26> children;
+    bool flag = false;
 
-    Node() {
-        this->flag = false;
-    }
+    Node() = default; // Default constructor
 };
 
 class Trie {
 public:
-    std::shared_ptr<Node> root;
-    Trie() {
-        root = std::make_shared<Node>();
+    std::unique_ptr<Node> root;
+
+    Trie() : root(std::make_unique<Node>()) {}
+
+    void insert(const std::string& word) {
+        Node* stem = get_stem(word, true);
+        stem->flag = true;
     }
-    
-    
-    
-    std::shared_ptr<Node> get_stem(std::string word, bool auto_create = false) {
-        auto current = root;
-        for(int i = 0; i < word.size(); i++)
-        {
-            if(!current->children[word[i]-'a'] && auto_create == false) return nullptr;
-            if(!current->children[word[i]-'a'] && auto_create == true) 
-                current->children[word[i]-'a'] = std::make_shared<Node>();
-            current = current->children[word[i]-'a'];
+
+    bool search(const std::string& word)  {
+        Node* stem = get_stem(word);
+        return stem != nullptr && stem->flag;
+    }
+
+    bool startsWith(const std::string& prefix)  {
+        Node* stem = get_stem(prefix);
+        return stem != nullptr;
+    }
+
+    Node* get_stem(const std::string& word, bool auto_create = false) {
+        Node* current = root.get();
+        for (char c : word) {
+            auto& child = current->children[c - 'a'];
+            if (!child && auto_create == false) return nullptr;
+            if (!child && auto_create == true) 
+                child = std::make_unique<Node>();
+            
+            current = child.get();
         }
         return current;
-    }
-
-    void insert(string word) {
-       auto stem = get_stem(word, true);
-       stem->flag = true;
-    }
-
-    bool search(string word) {
-        auto stem = get_stem(word);
-
-        return stem != nullptr && stem->flag == true;
-    }
-    
-    bool startsWith(string prefix) {
-        auto stem = get_stem(prefix);
-        return stem != nullptr;
     }
 };
 
