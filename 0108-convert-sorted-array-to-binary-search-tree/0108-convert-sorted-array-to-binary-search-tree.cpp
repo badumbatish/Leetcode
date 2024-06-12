@@ -9,6 +9,7 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+
 class Solution {
 public:
     TreeNode* sortedArrayToBST(vector<int>& nums) {
@@ -18,10 +19,12 @@ public:
     TreeNode* tree_construction(std::vector<int>& nums, int start, int end)
     {
         if (start > end) return nullptr;
-        TreeNode* root = new TreeNode(nums[start]);
+
+        auto mid = (start+end)/2;
+        TreeNode* root = new TreeNode(nums[mid]);
         
-        root->left = tree_construction(nums, start, (start+end)/2 - 1);
-        root->right = tree_construction(nums, (start+end)/2, end);
+        root->left = tree_construction(nums, start, mid - 1);
+        root->right = tree_construction(nums, mid + 1, end);
 
         return root;
     }
