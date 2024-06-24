@@ -1,6 +1,10 @@
 class Solution {
 public:
     std::string_view expand(int i, int j, std::string_view s) {
+        // Starting from i and j, we go out both directions 
+        // until either s[i] != s[j]
+        // or they went out of the bound of the string view
+
         while (i >= 0 && j < s.size() && s[i] == s[j]) {
             i--;
             j++;
