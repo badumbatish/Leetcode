@@ -16,10 +16,10 @@ public:
         std::string_view ans = "";
 
         for (int i = 0 ; i < s.size(); i++) {
-            auto odd = expand(i, i , s);
+            decltype(ans) odd = expand(i, i , s);
             if (odd.size() > ans.size()) ans = odd;
 
-            auto even = expand(i, i + 1, s);
+            decltype(ans) even = expand(i, i + 1, s);
             if (even.size() > ans.size()) ans = even;
 
         }
