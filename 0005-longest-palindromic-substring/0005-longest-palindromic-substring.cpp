@@ -1,21 +1,24 @@
 class Solution {
 public:
-    string longestPalindrome(string s) {
-        for (int length = s.size() - 1 ; length >= 0; length--) {
-            for (size_t start = 0; start <= s.size() - length; start++) {
-                if (check(s, start, start + length )) {
-                    return s.substr(start, length + 1);
-                }
-            }
+    std::string_view expand(int i, int j, std::string_view s) {
+        while (i >= 0 && j < s.size() && s[i] == s[j]) {
+            i--;
+            j++;
         }
-        return "";
-    }
 
-    bool check(std::string &s, int i, int j)
-    {
-        while (i < j) {
-            if (s[i++] != s[j--]) return false;
+        return s.substr(i + 1, j - i - 1);
+    }
+    string longestPalindrome(string s) {
+        std::string_view ans = "";
+
+        for (int i = 0 ; i < s.size(); i++) {
+            auto odd = expand(i, i , s);
+            if (odd.size() > ans.size()) ans = odd;
+
+            auto even = expand(i, i + 1, s);
+            if (even.size() > ans.size()) ans = even;
+
         }
-        return true;
+        return std::string(ans);
     }
 };
