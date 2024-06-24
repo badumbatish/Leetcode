@@ -4,12 +4,12 @@ public:
         if (nums.size() == 1) return nums[0];
         if (nums.size() == 2) return max(nums[0], nums[1]);
 
-        int amount = nums[1];
+        auto amount = nums[1];
 
-        int c1 = nums[1];
-        int c2 = nums[0];
+        auto c1 = nums[1];
+        auto c2 = nums[0];
 
-        for (int i = 2; i < nums.size(); i++) {
+        for (size_t i = 2; i < nums.size(); i++) {
             // The amount that the thief can get is 
             // The maximum between the 1-away, or 
                 // the previous 2-away one, coupled with the current one.
