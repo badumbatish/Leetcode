@@ -4,17 +4,16 @@ public:
         int m = word1.size();
         int n = word2.size();
 
-        int i = 0, j = 0;
-
         std::string result = "";
-        while (i < m || j < n) {
+        int i = 0, j = 0;
+        
+        while (i < m || j < n) 
+        {
             if (i < m) {
-                result += word1[i];
-                i++;
+                result += word1[i++];
             }
             if (j < n) {
-                result += word2[j];
-                j++;
+                result += word2[j++];
             }
         }
 
