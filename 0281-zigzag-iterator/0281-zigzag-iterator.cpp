@@ -1,27 +1,25 @@
 class ZigzagIterator {
-    bool flag = true;
-    int i, j;
-    std::vector<int> &v1, &v2;
+    std::queue<std::pair<std::vector<int>&, int>> vec_queue;
 public:
-    ZigzagIterator(vector<int>& v1, vector<int>& v2) : v1(v1), v2(v2){
-        i = 0;
-        j = 0;
+    ZigzagIterator(vector<int>& v1, vector<int>& v2) {
+        if (v1.size() > 0) vec_queue.push({v1, 0});
+        if (v2.size() > 0) vec_queue.push({v2, 0});
     }
 
     int next() {
-        if (flag) {
-            flag = !flag;
-            if (i < v1.size()) return v1[i++];
-            else return v2[j++];
-        } else {
-            flag = !flag;
-            if (j < v2.size()) return v2[j++];
-            else return v1[i++];
-        }
+        int ans = 0;
+
+        auto [v, index] = vec_queue.front();
+        vec_queue.pop();
+        if (index < v.size()) ans = v[index];
+        index++;
+        if (index < v.size()) vec_queue.push({v, index});
+
+        return ans;
     }
 
     bool hasNext() {
-        return i < v1.size() || j < v2.size();
+        return !vec_queue.empty();
     }
 };
 
