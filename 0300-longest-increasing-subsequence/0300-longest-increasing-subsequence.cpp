@@ -9,10 +9,7 @@ public:
             if (num > sub.back()) {
                 sub.push_back(num);
             } else {
-                int j = 0;
-                while (num > sub[j]) {
-                    j += 1;
-                }
+                int j = std::lower_bound(sub.begin(), sub.end(), num) - sub.begin();
 
                 sub[j] = num;
             }
