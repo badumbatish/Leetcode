@@ -11,41 +11,27 @@
 class Solution {
 public:
     ListNode* mergeNodes(ListNode* head) {
-        ListNode* curr = head;
-
-        std::vector<int> vec = {};
+        ListNode* curr = head->next;
+        ListNode* anchor = head->next;
+        ListNode* prev = head;
 
         int sum = 0;
-        while (curr) {
+
+        while(curr) {
             if (curr->val == 0) {
-                vec.push_back(0);
+                anchor->next = curr->next;
+                anchor->val = sum;
+                    anchor = curr->next;
+                sum = 0;
             } else {
-                vec.back() += curr->val;
+                sum += curr->val;
             }
 
+            prev = curr;
             curr = curr->next;
         }
-        vec.pop_back();
+        prev->next = nullptr;
 
-        curr = head;
-
-        int cnt = 0;
-        while (curr && cnt < vec.size()) {
-            curr->val = vec[cnt];
-            cnt++;
-            curr = curr->next;
-        }
-
-        curr = head;
-        cnt = 0;
-        while (cnt < vec.size() - 1) {
-            curr = curr->next;
-            cnt++;
-        }
-        curr->next = nullptr;
-
-        for (auto i : vec) std::cout << i << " ";
-
-        return head;
+        return head->next;
     }
 };
