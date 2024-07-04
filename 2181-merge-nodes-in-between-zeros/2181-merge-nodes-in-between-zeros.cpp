@@ -21,7 +21,7 @@ public:
             if (curr->val == 0) {
                 anchor->next = curr->next;
                 anchor->val = sum;
-                    anchor = curr->next;
+                anchor = curr->next;
                 sum = 0;
             } else {
                 sum += curr->val;
