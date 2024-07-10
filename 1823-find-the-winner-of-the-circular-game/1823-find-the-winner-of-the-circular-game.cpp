@@ -1,19 +1,20 @@
 class Solution {
 public:
     int findTheWinner(int n, int k) {
-        std::queue<int> circle;
+        std::queue<int> q;
 
-        for (int i = 1; i <= n; i++) circle.push(i);
-
-        while (circle.size() > 1) {
-            for (int i = 0; i < k - 1; i++) {
-                circle.push(circle.front());
-                circle.pop();
+        for (int i = 1; i <= n; i++) q.push(i);
+        
+        while (q.size() > 1) {
+            for (int u = 0; u < k - 1; u++) {
+                q.push(q.front());
+                q.pop();
             }
-
-            circle.pop();
+            q.pop();
         }
 
-        return circle.front();
+        return q.front();
+
+
     }
 };
