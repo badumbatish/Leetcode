@@ -1,32 +1,29 @@
 class Solution {
 public:
     int minMeetingRooms(vector<vector<int>>& intervals) {
-        std::vector<int> start_points {};
-        std::vector<int> end_points {};
+        std::vector<int> starts, ends;
 
-        for (auto vec : intervals) {
-            start_points.push_back(vec[0]);
-            end_points.push_back(vec[1]);
+        for (auto &e : intervals) {
+            starts.push_back(e[0]);
+            ends.push_back(e[1]);
         }
-
-        std::ranges::sort(start_points);
-        std::ranges::sort(end_points);
-
+        std::ranges::sort(starts);
+        std::ranges::sort(ends);
         int i = 0, j = 0;
-        int current_intersections = 0;
-        int max_intersection = 0;
-        while (i < start_points.size()) {
-            if (start_points[i] < end_points[j]) {
-                current_intersections++;
+        int curr_int = 0, max_int = 0;
+
+        while (i < intervals.size()) {
+            if (starts[i] < ends[j]) {
                 i++;
+                curr_int++;
             } else {
-                current_intersections--;
                 j++;
+                curr_int--;
             }
 
-            max_intersection = std::max(max_intersection, current_intersections);
+            max_int = max(max_int, curr_int);
         }
 
-        return max_intersection;
+        return max_int;
     }
 };
