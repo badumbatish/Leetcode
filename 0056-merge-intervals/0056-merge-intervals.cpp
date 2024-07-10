@@ -1,20 +1,20 @@
 class Solution {
 public:
     vector<vector<int>> merge(vector<vector<int>>& intervals) {
-        std::sort(intervals.begin(), intervals.end(), [](std::vector<int> &a, std::vector<int> &b) { return a[0] < b[0]; });
+        std::ranges::sort(intervals, [](auto &a, auto &b) { return a[0] < b[0]; });
 
-        std::vector<std::vector<int>> output;
-        output.push_back(intervals.front());
+        std::vector<int> temp = intervals[0];
 
-        for (auto current_interval : intervals) {
-            auto last_interval = output.back();
-            if (last_interval[1] < current_interval[0]) {
-                output.push_back(current_interval);
+        std::vector<std::vector<int>> ans = {temp};
+        
+        for (auto &interval : intervals) {
+            auto& last_interval = ans.back();
+            if (last_interval[1] < interval[0])  {
+                ans.push_back(interval);
             } else {
-                output.back()[1] = std::max(output.back()[1],current_interval[1]);
+                last_interval[1] = std::max(last_interval[1], interval[1]);
             }
         }
-
-        return output;
+        return ans;
     }
 };
