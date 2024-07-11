@@ -1,19 +1,31 @@
 class Solution {
 public:
     string reverseParentheses(string s) {
-        std::stack<int> open_par_indices {};
+        int n = s.size();
+
+        std::stack<int> open_par_indices;
+        std::vector<int> pair_index(n);
+
+        for(int i = 0; i < n; i++) {
+            if (s[i] == '(') {
+                open_par_indices.push(i);
+            }
+            if (s[i] == ')') {
+                int j = open_par_indices.top();
+                open_par_indices.pop();
+                pair_index[i] = j;
+                pair_index[j] = i;
+            }
+        }
 
         std::string result;
 
-        for (auto ch : s) {
-            if (ch == '(') {
-                open_par_indices.push(result.length());
-            } else if (ch == ')') {
-                int start = open_par_indices.top();
-                open_par_indices.pop();
-                std::reverse(result.begin() +start, result.end());
+        for (int curr_index = 0, direction = 1; curr_index < n; curr_index += direction) {
+            if (s[curr_index] == '(' || s[curr_index] == ')') {
+                curr_index = pair_index[curr_index];
+                direction = -direction;
             } else {
-                result += ch;
+                result += s[curr_index];
             }
         }
 
