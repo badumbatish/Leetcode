@@ -1,9 +1,16 @@
 class Solution {
 public:
     int majorityElement(vector<int>& nums) {
-        std::unordered_map<int, int> freq;
-        for(auto i : nums) freq[i]++;
+        int count = 0;
+        int candidate;
 
-        return std::ranges::max_element(freq)->first;
+        for (int& num : nums) {
+            if (count == 0) {
+                candidate = num;
+            }
+            count += (num == candidate) ? 1 : -1;
+        }
+
+        return candidate;
     }
 };
