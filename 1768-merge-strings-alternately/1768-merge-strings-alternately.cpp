@@ -9,12 +9,8 @@ public:
         
         while (i < m || j < n) 
         {
-            if (i < m) {
-                result += word1[i++];
-            }
-            if (j < n) {
-                result += word2[j++];
-            }
+            if (i < m) result += word1[i++];
+            if (j < n) result += word2[j++];
         }
 
         return result;
