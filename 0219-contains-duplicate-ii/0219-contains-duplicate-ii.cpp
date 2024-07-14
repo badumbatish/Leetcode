@@ -1,10 +1,12 @@
 class Solution {
 public:
     bool containsNearbyDuplicate(vector<int>& nums, int k) {
+        std::set<int> st;
+
         for (int i = 0; i < nums.size(); i++) {
-            for (int j = max(i - k, 0); j < i; j++) {
-                if (nums[i] == nums[j]) return true;
-            }
+            if (st.contains(nums[i])) return true;
+            st.insert(nums[i]);
+            if (st.size() > k) st.erase(nums[i-k]);
         }
 
         return false;
