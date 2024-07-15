@@ -3,7 +3,7 @@ public:
     bool exist(vector<vector<char>>& board, string word) {
         // Run heuristic first
             // Create a map of all character in board
-        auto board_count = std::map<char, int>();
+        std::unordered_map<char, int> board_count;
         for(int8_t row=0; row < board.size(); row++) {
             for (int8_t col=0; col < board[0].size(); col++) {
                 board_count[board[row][col]]++;
