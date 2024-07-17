@@ -28,7 +28,9 @@ public:
         
         if (to_delete_set.count(node->val)) {
             if (node->left && to_delete_set.count(node->left->val) == 0) result.push_back(node->left);
+ 
             if (node->right && to_delete_set.count(node->right->val) == 0) result.push_back(node->right);
+
             to_delete_set.erase(node->val);
             
         }
