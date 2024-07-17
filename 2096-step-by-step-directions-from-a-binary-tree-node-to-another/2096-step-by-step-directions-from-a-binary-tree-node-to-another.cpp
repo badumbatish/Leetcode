@@ -10,16 +10,13 @@
  * };
  */
 class Solution {
-    std::map<int, TreeNode*> parent_map;
+    std::unordered_map<int, TreeNode*> parent_map;
     std::queue<TreeNode*> q;
     std::set<TreeNode*> visited;
     std::unordered_map<TreeNode*, std::pair<TreeNode*, string>> path_tracker;
 
 public:
     string getDirections(TreeNode* root, int startValue, int destValue) {
-        
-    
-
         auto start_node = find_node(root, startValue);
         populate_parent_map(root);
 
@@ -40,6 +37,7 @@ public:
 
                 // If we haven't visited the parent,
                 // We say that the path from the current node to parent node is UP 
+                // Or from the parent node POV, current node goes up to reach it
                 // And we visit the parent node next.
                 if (visited.count(parent_node) == 0) {
                     q.push(parent_node);
