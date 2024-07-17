@@ -30,6 +30,7 @@ public:
                 return back_track(current_node);
             }
 
+            auto *left = current_node->left, *right = current_node->right;
 
             // Work up to the root
             if (parent_map.find(current_node->val) != parent_map.end()) {
@@ -49,10 +50,10 @@ public:
             // Work down to the left
             // If we haven't visited the left
             // We say that the path from the current node to the left is LEFT
-            if (current_node->left != nullptr && visited.count(current_node->left) == 0) {
-                q.push(current_node->left);
-                path_tracker[current_node->left] = {current_node, "L"};
-                visited.insert(current_node->left);
+            if (left != nullptr && visited.count(left) == 0) {
+                q.push(left);
+                path_tracker[left] = {current_node, "L"};
+                visited.insert(left);
             }
 
             // Work down to the right
