@@ -1,17 +1,28 @@
 class Solution {
 public:
     bool backspaceCompare(string s, string t) {
-        return build(s) == build(t);
-    }
+        int i = s.size() - 1, j = t.size() - 1, back = 0;
 
-    std::string build(std::string s) {
-        std::string result;
+        while(true) {
+            back = 0;
+            while (i >= 0 && (back > 0 || s[i] == '#')) {
+                back += s[i] == '#' ? 1 : -1;
+                i--;
+            }
 
-        for (char ch : s) {
-            if (ch != '#') result.push_back(ch);
-            else if (!(result.size() == 0)) result.pop_back();
+            back = 0;
+            while (j >= 0 && (back > 0 || t[j] == '#')) {
+                back += t[j] == '#' ? 1 : -1;
+                j--;
+            }
+
+            if (i >= 0 && j >= 0 && s[i] == t[j]) {
+                i--; j--;
+            } else {
+                break;
+            }
         }
 
-        return result;
+        return i == -1 && j == -1;
     }
 };
