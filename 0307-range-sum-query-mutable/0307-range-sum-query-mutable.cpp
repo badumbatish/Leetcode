@@ -31,7 +31,9 @@ public:
         }
 
         int sum = 0;
-        for (int k = left; k <= (start_block + 1) * block_size - 1; k++) sum += nums[k];
+
+        //
+        for (int k = left; k < (start_block + 1) * block_size ; k++) sum += nums[k];
         for (int k = start_block + 1; k <= end_block - 1; k++) sum += blocks[k];
         for (int k = end_block * block_size; k <= right; k++) sum += nums[k];
 
