@@ -26,9 +26,9 @@ public:
         int start_block = left / block_size;
         int end_block = right / block_size;
 
-        if (start_block == end_block) {
-            return std::accumulate(nums.begin() + left, nums.begin() + right + 1, 0);
-        }
+        // if (start_block == end_block) {
+        //     return std::accumulate(nums.begin() + left, nums.begin() + right + 1, 0);
+        // }
 
         int sum = 0;
         for (int k = left; k <= (start_block + 1) * block_size - 1; k++) sum += nums[k];
