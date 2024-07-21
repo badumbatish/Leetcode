@@ -15,11 +15,8 @@ public:
         while (left < right) {
             int mid = left + (right - left) / 2;
 
-            if (guess(mid) == 1) {
-                left = mid+1;
-            } else {
-                right = mid;
-            }
+            if (guess(mid) == 1) left = mid + 1;
+            else right = mid;
         }
         return left;
     }
