@@ -6,16 +6,19 @@ public:
         n = graph.size();
         visited = std::vector<int>(n, 0);
 
-        for (int i = 0; i < n; i++) dfs(i, graph);
+        //for (int i = 0; i < n; i++) dfs(i, graph);
 
         std::vector<int> safe_nodes;
         for (int i = 0; i < n; i++) {
-            if (visited[i] != 1) safe_nodes.push_back(i);
+            if (!dfs(i, graph)) safe_nodes.push_back(i);
         }
 
         return safe_nodes;
     }
 
+
+    // True means i have a cycle
+    // False means i dont have a cycle
     bool dfs(int node, std::vector<std::vector<int>>& graph) {
         if (visited[node] == 1) return true;
 
