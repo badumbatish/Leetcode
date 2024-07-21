@@ -14,7 +14,8 @@ public:
 
         while (left < right) {
             int mid = left + (right - left) / 2;
-
+            // If my guess is lower than the number being picked 
+            // This means my guess needs to be higher 
             if (guess(mid) == 1) left = mid + 1;
             else right = mid;
         }
