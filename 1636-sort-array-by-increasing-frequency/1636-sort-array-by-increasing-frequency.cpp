@@ -5,7 +5,7 @@ public:
         for (auto n : nums) mp[n]++;
 
         std::vector<std::pair<int, int>> vec;
-        for (auto pair : mp) vec.push_back(pair);
+        for (auto &pair : mp) vec.push_back(std::move(pair));
 
         std::ranges::sort(vec, [](const auto&a, const auto&b) {
             if (a.second == b.second) return a.first > b.first;
@@ -14,10 +14,7 @@ public:
 
         std::vector<int> res;
         for (auto &[key, value] : vec) {
-            while (value != 0) {
-                res.push_back(key);
-                value--;
-            }
+            while (value-- != 0) res.push_back(key);
         }
         return res;
     }
