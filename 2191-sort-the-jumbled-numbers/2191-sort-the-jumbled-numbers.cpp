@@ -8,7 +8,6 @@ public:
     }
 
     static int transform_int(std::vector<int>&mapping, int num) {
-        if (num == 0) return mapping[0];
         int result = 0;
         int power = 1;
         do {
