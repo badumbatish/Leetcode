@@ -2,9 +2,14 @@ class Solution {
 
 public:
     vector<int> sortJumbled(vector<int>& mapping, vector<int>& nums) {
-        std::ranges::sort(nums, [&](auto a, auto b) { return transform_int(mapping, a) < transform_int(mapping, b); });
-        
-        return nums;
+        std::vector<int> result(nums.size());
+        std::ranges::transform(nums, result.begin(), [&](auto num) { return transform_int(mapping, num); });
+
+        std::vector<int> index(nums.size());
+        std::iota(index.begin(), index.end(), 0);
+        std::ranges::sort(index, [&](auto a, auto b) { return result[a] < result[b];});
+        std::ranges::transform(index, result.begin(), [&](auto i) { return nums[i];});
+        return result;
     }
 
     static int transform_int(const std::vector<int>&mapping, int num) {
