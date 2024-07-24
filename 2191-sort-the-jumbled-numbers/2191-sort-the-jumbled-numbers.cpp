@@ -7,9 +7,9 @@ public:
         return nums;
     }
 
-    static int transform_int(std::vector<int>&mapping, int num) {
-        int result = 0;
-        int power = 1;
+    static int transform_int(const std::vector<int>&mapping, int num) {
+        int result = 0, power = 1;
+
         do {
             result = power * mapping[num % 10] + result;
             power *= 10;
