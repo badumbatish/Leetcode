@@ -12,14 +12,19 @@
 class Solution {
 public:
     bool isBalanced(TreeNode* root) {
-        if (root == nullptr) return true;
-        if (std::abs(height(root->left) - height(root->right)) > 1)
-            return false;
-        return isBalanced(root->left) && isBalanced(root->right);
+        return dfs_height(root) != -1;
     }
 
-    int height(TreeNode* root) {
-        if (!root) return -1;
-        return 1 + max(height(root->left), height(root->right));
+
+    int dfs_height(TreeNode* root) {
+        if (root == nullptr) return 0;
+        int left_height = dfs_height(root->left);
+        if (left_height == -1) return -1;
+
+        int right_height = dfs_height(root->right);
+        if (right_height == -1) return -1;
+
+        if (abs(left_height - right_height) > 1) return -1;
+        return max(left_height, right_height) + 1;
     }
 };
