@@ -1,7 +1,6 @@
 class Solution {
 public:
     int minimumDeletions(string s) {
-        std::stack<int> stck;
         int mini = 0;
         int b_count = 0;
         for(int i = 0; i < s.size(); i++) {
