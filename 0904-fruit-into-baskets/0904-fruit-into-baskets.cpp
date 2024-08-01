@@ -13,6 +13,8 @@ public:
                 if (basket[fruits[left]] == 0) basket.erase(fruits[left]);
                 left++;
             }
+
+            if (basket.size() > 2) return -1;
         }
 
         return right - left;
