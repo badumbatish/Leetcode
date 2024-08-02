@@ -8,10 +8,9 @@ public:
         
         int min_swap = window[0];
         for (int i = ones; i < nums.size() + ones;  i++) {
-            int mod_index = i % nums.size();
-            int mod_index_minus = (i - ones) % nums.size();
-            window[nums[mod_index]]++;
-            window[nums[mod_index_minus]]--;
+            int window_right = i % nums.size(), window_left = (i - ones) % nums.size();
+            window[nums[window_right]]++;
+            window[nums[window_left]]--;
             min_swap = min(min_swap, window[0]);
         }
 
