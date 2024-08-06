@@ -19,11 +19,10 @@ public:
                 cycle = 8;
             }
         }
+        
         int sum = 0;
-
-        for (auto [ch, freq] : freq_char) {
-            sum += assigned_char_weight[ch] * freq;
-        }
+        for (auto [ch, freq] : freq_char) sum += assigned_char_weight[ch] * freq;
+        
        
         return sum;
     }
