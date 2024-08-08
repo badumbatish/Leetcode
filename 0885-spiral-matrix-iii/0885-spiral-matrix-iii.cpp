@@ -8,7 +8,7 @@ public:
         std::vector<std::vector<int>> traversed;
 
 
-        for (int step = 1, direction = 0; traversed.size() < rows * cols;) {
+        for (int step = 1, direction = 0; traversed.size() < rows * cols;step++) {
             for (int i = 0; i < 2; i++) {
                 for (int j = 0; j < step; j++) {
                     if (rStart >= 0 && rStart < rows && cStart >= 0 && cStart < cols) {
@@ -21,7 +21,7 @@ public:
 
                 direction = (direction + 1) % 4;
             }
-            step++;
+           // step++;
         }
         return traversed;
     }
