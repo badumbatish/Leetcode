@@ -13,18 +13,15 @@ public:
     ListNode* middleNode(ListNode* head) {
         int count = 0;
         auto p = head;
-
         while (p != nullptr) {
-            count++; 
-            p = p->next;
+            count++;
+            p=p->next;
         }
 
         p = head;
-
         count /= 2;
-        for (int i = 0; i < count; i++) {
-            p = p->next;
-        }
+
+        for (int i = 0; i < count; i++) p = p->next;
         return p;
     }
 };
