@@ -1,24 +1,19 @@
 class Solution {
 public:
     int maxDistance(vector<vector<int>>& arrays) {
-        std::vector<std::pair<int, int>> start, ending;
-        int i = 0;
-        for (auto &array : arrays) {
-            start.push_back({array.front(), i});
-            ending.push_back({array.back(), i});
-            i++;
+        int mini = arrays.front().front();
+        int maxi = arrays.front().back();
+
+        int dist = 0;
+        for (int i = 1; i < arrays.size(); i++) {
+            auto &array = arrays[i];
+            dist = std::max(dist, array.back() - mini);
+            dist = std::max(dist, maxi - array.front());
+
+            mini = std::min(mini, array.front());
+            maxi = std::max(maxi, array.back());
         }
 
-        std::sort(start.begin(), start.end());
-        std::sort(ending.begin(), ending.end());
-
-        auto a = start.front();
-        auto b = ending.back();
-
-        if (a.second != b.second) return b.first - a.first;
-        
-        auto c = start[1];
-        auto d = ending[ending.size() - 2];
-        return std::max(d.first - a.first, b.first - c.first);
+        return dist;
     }
 };
