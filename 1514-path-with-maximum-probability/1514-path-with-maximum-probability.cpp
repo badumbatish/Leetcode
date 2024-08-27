@@ -1,16 +1,16 @@
 class Solution {
-
+    using NODE = int;
+    using DISTANCE = double;
 public:
     double maxProbability(int n, vector<vector<int>>& edges, vector<double>& succProb, int start_node, int end_node) {
-        std::unordered_map<int, std::set<std::pair<int, double>>> adj_list;
+        std::unordered_map<int, std::set<std::pair<NODE, DISTANCE>>> adj_list;
         for (int i = 0; i < edges.size(); i++) {
-            auto node_a = edges[i][0], node_b = edges[i][1];
-            adj_list[node_a].insert({node_b, succProb[i]});
-            adj_list[node_b].insert({node_a, succProb[i]});
+            adj_list[edges[i][0]].insert({edges[i][1], succProb[i]});
+            adj_list[edges[i][1]].insert({edges[i][0], succProb[i]});
         }
     
-        std::map<int, double> dist_map;
-        std::priority_queue<std::pair<double, int>> q;
+        std::map<NODE, DISTANCE> dist_map;
+        std::priority_queue<std::pair<DISTANCE, NODE>> q;
         q.push({1.0, start_node});
         dist_map[start_node] = 1.0;
 
@@ -26,7 +26,6 @@ public:
             }
         }
 
-        if (!dist_map.contains(end_node)) return 0.0;
-        else return dist_map[end_node];
+        return dist_map[end_node];
     }
 };
