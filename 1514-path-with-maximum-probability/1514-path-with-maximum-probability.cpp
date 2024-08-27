@@ -9,13 +9,12 @@ public:
             adj_list[edges[i][1]].insert({edges[i][0], succProb[i]});
         }
     
-        std::map<NODE, DISTANCE> dist_map;
+        std::unordered_map<NODE, DISTANCE> dist_map;
         std::priority_queue<std::pair<DISTANCE, NODE>> q;
         q.push({1.0, start_node});
         dist_map[start_node] = 1.0;
 
         while (!q.empty()) {
-        
             auto [dist, from] = q.top(); q.pop();
             for (auto &[to, dist_from_to] : adj_list[from]) {
                 auto connected_dist = dist * dist_from_to;
