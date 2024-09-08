@@ -12,17 +12,12 @@ class Solution {
 public:
     vector<ListNode*> splitListToParts(ListNode* head, int k) {
         int length = get_length(head);
-
-        int more = std::ceil(length * 1.0 / k);
-        int less = std::floor(length * 1.0 / k);
-
-        std::cout << length << " " << more << " " << less << std::endl;
-        ListNode* prev = nullptr;
+        int more = std::ceil(length * 1.0 / k), less = std::floor(length * 1.0 / k);
 
         std::vector<ListNode*> result;
-        int count = 0;
         while (k) {
             result.push_back(head);
+            
             if (length % k == length) {
                 head = take(head, 1);
                 length -= 1;
@@ -35,10 +30,8 @@ public:
                 length -= less;
             }
             k--;
-            count++;
         }
-        std::cout << length << std::endl;
-        while (count++ < k) result.push_back(nullptr);
+        
         return result;
     }
 
@@ -52,6 +45,8 @@ public:
         return count;
     }
 
+    // Takes "length" notes away by marking its end as nullptr 
+    // returning the new section
     ListNode* take(ListNode* head, int length) {
         if (!head) return nullptr;
         while (length != 1 && head->next) {
@@ -61,11 +56,5 @@ public:
         auto n = head->next;
         head->next = nullptr;
         return n;
-        // if (head) {
-        //     ListNode* n = head->next;
-        //     head->next = nullptr;
-        //     return n;
-        // } else 
-        //     return nullptr;
     }
 };
