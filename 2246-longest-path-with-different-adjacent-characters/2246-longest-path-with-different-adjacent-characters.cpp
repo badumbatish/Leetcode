@@ -4,6 +4,8 @@ class Solution {
 public:
     int longestPath(vector<int>& parent, string s) {
         int n = parent.size();
+
+        // a graph that contains i and children of i 
         children = std::vector<std::vector<int>>(n);
         for (int i = 1; i < n; i++) {
             children[parent[i]].push_back(i);
