@@ -21,13 +21,17 @@ public:
 
         for (int child : children[current]) {
             int longest_chain_start_from_child = dfs(child, s);
-
+            
+            // if parent and children has the same character, let's not consider the longest chain
+            // althought we're still computing the longest path starting from the child 
             if (s[current] == s[child]) continue;
-
+            
+            // Case 1: where we have have a new longest chain
             if (longest_chain_start_from_child > longest_chain) {
                 second_longest_chain = longest_chain;
                 longest_chain = longest_chain_start_from_child;
             } else if (longest_chain_start_from_child > second_longest_chain) {
+                // Case 2: where we have a new second longest chain
                 second_longest_chain = longest_chain_start_from_child;
             }
         } 
