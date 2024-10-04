@@ -2,6 +2,7 @@ class Solution {
 public:
     // Find function for Union-Find (with path compression)
     int find(int u, vector<int>& parent) {
+        // if u is not its own root, we need to find parent[u]'s root
         if (u != parent[u]) {
             parent[u] = find(parent[u], parent);  // Path compression
         }
@@ -16,8 +17,10 @@ public:
         if (rootU != rootV) {
             if (rank[rootU] > rank[rootV]) {
                 parent[rootV] = rootU;
+                rank[rootU]++;
             } else if (rank[rootU] < rank[rootV]) {
                 parent[rootU] = rootV;
+                rank[rootV]++;
             } else {
                 parent[rootV] = rootU;
                 rank[rootU]++;
