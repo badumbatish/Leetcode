@@ -6,9 +6,8 @@ public:
 
         int i = 0, j = 0;
         while (i < nums.size() && j < nums.size()) {
-            if (j == 0 || nums[j] == nums[j-1] + 1) j++;
+            if (j == 0 || nums[j] == nums[j-1] + 1) j = j + 1;
             else {
-                std::cout << nums[i] << " " << nums[j-1] << std::endl;
                 ranges.push_back({nums[i], nums[j-1]});
                 i = j;
                 j = j + 1;
