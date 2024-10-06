@@ -1,30 +1,26 @@
 class Solution {
 public:
     bool checkInclusion(string s1, string s2) {
-        if (s1.size() > s2.size()) return false;
         
-        std::map<char, int> map_1;
-        for (auto ch : s1) map_1[ch]++;
+        if (s2.size() < s1.size()) return false;
+        auto len = s1.size();
 
-        for (int i = 0; i < s2.size() - s1.size() + 1; i++) {
-            std::map<char, int> map_2;
-
-            for (int j = 0; j < s1.size(); j++) {
-                map_2[s2[i+j]]++;
-            }
-            if (matches(map_1, map_2)) return true;
+        std::map<char, int> s1_sig;
+        for (int i = 0; i < len; i++) {
+            s1_sig[s1[i]]++;
         }
 
+        std::map<char, int> sub_sig;
+        for (int i = 0; i < s2.size() - len + 1; i++) {
+             
+            for (int j = 0; j < len; j++) {
+                sub_sig[s2[i+j]]++;
+            }
+            if (sub_sig == s1_sig) return true;
+            sub_sig = std::map<char, int>();
+        }
+
+        std::cout << "hi" << std::endl;
         return false;
     }
-
-    bool matches(std::map<char, int> &a, std::map<char, int>&b) {
-        for (auto [key, value] : a) {
-            if (a[key] - b[key] != 0) return false;
-        }
-
-        return true;
-    }
-
-
 };
