@@ -9,7 +9,7 @@ class Solution {
             return;
         }
          // Prune: If not enough numbers left to complete the combination, stop early
-        if (index > n || (n - index + 1) < (k - combination.size())) {
+        if ((n - index + 1) < (k - combination.size())) {
             return;
         } 
 
