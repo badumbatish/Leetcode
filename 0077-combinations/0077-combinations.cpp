@@ -1,25 +1,30 @@
 class Solution {
-    std::vector<std::vector<int>> result;
-    std::vector<int> temp;
-    int n;
-public:
-    vector<vector<int>> combine(int n, int k) {
-        this->n = n;
-        dfs(1, k);
-        return result;
-    }
+    using Combination = std::vector<int>;
 
-    void dfs(int i, int k){ 
-        if (temp.size() == k) {
-            result.push_back(temp);
+    int n, k;
+    std::vector<Combination> result;
+    void backtrack(int index, Combination& combination) {
+        if (combination.size() == k) {
+            result.push_back(combination);
             return;
         }
 
-        for (int x = i; x <= n; x++) {
-            temp.push_back(x);
-            dfs(x + 1, k);
-            temp.pop_back();
+        // We start from index instead of 0 to avoid duplication
+        for (int i = index; i < n; i++) {
+            combination.push_back(i+1);
+            backtrack(i+1, combination);
+            combination.pop_back();
         }
-    
+    }
+
+public:
+    vector<vector<int>> combine(int n, int k) {
+        this->n = n;
+        this->k = k;
+
+        Combination combination;
+        backtrack(0, combination);
+
+        return this->result;
     }
 };
