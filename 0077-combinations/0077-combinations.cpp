@@ -8,6 +8,10 @@ class Solution {
             result.push_back(combination);
             return;
         }
+         // Prune: If not enough numbers left to complete the combination, stop early
+        if (index > n || (n - index + 1) < (k - combination.size())) {
+            return;
+        } 
 
         // We start from index instead of 0 to avoid duplication
         for (int i = index; i < n; i++) {
