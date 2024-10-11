@@ -1,78 +1,42 @@
 class Solution {
-public:
-    string simplifyPath(string path) {
-        // while loop or for loop
-        // for each character
-        //  if '/' (i)=> collect until not / (i+1)
-        //  if '.' => collect until not .
-        //  if normal name => collect until not normal name or .
+    std::string result;
+    std::vector<std::string> split_by_slashes(std::string &path) {
+        std::stringstream ss(path);
+        std::vector<std::string> split;        
 
-        // then we handle different categories for each untils
-
-        // '/' => just append a single slash
-        // '.' => if . => remove .
-        //     => if .. => remove .. as well as until either start of result or first 2 / 
-        // normal => Add it
-
-        std::string result;
-        int i = 0;
-        while (i < path.size()) {
-            if (path[i] == '/')  {
-                while (i + 1 < path.size()) {
-                   if (path[i+1] == '/') i++; 
-                   else break;
-                }
-
-                while (!result.empty() && result.back() == '/') result.pop_back();
-                result += "/";
-                i++;
-            } else if (path[i] == '.') {
-                std::string temp_dots = ".";
-                while (i + 1 < path.size()) {
-                   if (path[i+1] != '/') {
-                        temp_dots += path[i+1]; 
-                        i++; 
-                    } else break;
-                }
-
-                if (temp_dots == "..") {
-                    // Pop until either we reach the root or we have met at least two slashes
-                    if (result.size() > 1 ) {
-                        result.pop_back();
-                        while (result.size() != 1 && result.back() != '/') result.pop_back();
-                        i++;
-                        continue;
-                    }
-                    
-                } else if (temp_dots != ".") {
-                   result += temp_dots; 
-                }
-                i++;
-                continue;
-                
-            } else {
-                std::string temp_dir = "";
-                temp_dir += path[i]; 
-                while (i + 1 < path.size()) {
-                   if (path[i+1] != '/') {
-                        temp_dir += path[i+1]; 
-                        i++; 
-                    } else break;
-                }
-
-
-                result += temp_dir;
-
-                i++;
-            }
-
-            std::cout << "Result : " << result << std::endl;
-
-
+        std::string temp;
+        while (std::getline(ss, temp, '/')) {
+            split.push_back(temp);
+            std::cout << temp << std::endl;
         }
 
-        while (result.size() > 1 && result.back() == '/') result.pop_back();
+        return split;
 
-        return result;
+    }
+    void pop_while_equals(char ch, int size) {
+        while (result.size() > size && result.back() == ch) result.pop_back();
+    }
+public:
+    string simplifyPath(string path) {
+        auto paths = split_by_slashes(path);
+
+        std::vector<std::string> result;
+        for (auto &path : paths) {
+            if (path == "..") {
+                if (result.size() >= 1) result.pop_back();
+            } else if (path != "" && path != "."){
+                result.push_back(path);
+            }
+        } 
+
+        std::string result_string;
+        for (auto r : result) {
+            std::cout << r << "-";
+            result_string += "/";
+            result_string += r;
+            
+        }
+        if (result_string == "") result_string = "/";
+        return result_string;
     }
 };
