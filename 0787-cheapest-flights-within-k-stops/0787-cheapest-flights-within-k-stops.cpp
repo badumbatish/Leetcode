@@ -14,30 +14,20 @@ public:
         Graph graph = make_graph(flights);
 
         // BFS
-
+        std::vector<std::vector<int>> cheapest(k, std::vector<int>(n, INT_MAX));
+        std::cout << "hi there" << std::endl;
+        cheapest[0][src] = 0;
         // Have a priority queue orignally src 
         // Tuple of 3: cost, node, level 
-        using Data = std::tuple<int, int>;
-        std::queue<Data> pq; 
-        std::vector<int> visited(n, INT_MAX);
-        pq.push({0, src});
-        visited[src]= 0;
-        int stops = 0 ;
-        // Go until we found dst 
-        while (stops <= k  && !pq.empty()) {
-            int sz = pq.size();
-            while (sz--) {
-                auto [price, node] = pq.front(); pq.pop();
-                for (auto [to, distance] : graph[node] ) {
-                    if (price + distance >= visited[to]) continue;
-                    visited[to] = price+ distance;
-                    pq.push({visited[to], to});
+        for (int i = 0; i < k - 1; i++) {
+            for (int j = 0; j < n; j++) {
+                for (auto [neighbor, cost] : graph[j]) {
+                    std::cout << "hi" << std::endl;
+                    //cheapest[i+1][neighbor] = min(cheapest[i][neighbor], cheapest[i][j] + cost);
                 }
             }
-            stops++;
         }
-        // return cheapest
 
-        return visited[dst] != INT_MAX ? visited[dst] : -1;
+        return cheapest[k-1][dst];
     }
 };
