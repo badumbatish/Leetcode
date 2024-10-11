@@ -13,10 +13,10 @@ class Solution {
     } 
 
     void dfs(int i, Graph &graph, Visited &v) {
-        v[i] = 0;
+        v[i] = 1;
 
         for (auto neighbor : graph[i]) {
-            if (v[neighbor] == -1) {
+            if (v[neighbor] == 0) {
                 dfs(neighbor, graph, v);
             }
         }
@@ -25,10 +25,10 @@ public:
 
     int countComponents(int n, vector<vector<int>>& edges) {
         Graph graph = make_graph(n, edges);     
-        Visited visited(n, -1);
+        Visited visited(n, 0);
         int connected_components = 0;
         for (int i = 0; i < n; i++) {
-            if (visited[i] == -1) {
+            if (visited[i] == 0) {
                 dfs(i, graph, visited);
                 connected_components++;
             }
