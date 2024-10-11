@@ -12,9 +12,11 @@ public:
         
     
     int find(int u) {
+        int v = u;
         while (parent[u] != u) {
             u = parent[u];
         }
+        parent[v] = u; 
 
         return u;
     }
