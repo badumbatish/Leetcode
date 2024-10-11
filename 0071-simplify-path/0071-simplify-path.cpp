@@ -35,7 +35,6 @@ public:
                     } else break;
                 }
 
-                std::cout << "temp_dots " << temp_dots << std::endl;
                 if (temp_dots == ".") {
                    i++;
                    if (result.size() > 1) result.pop_back();
@@ -44,25 +43,20 @@ public:
 
                     // Pop until either we reach the root or we have met at least two slashes
 
-                    if (result.size() == 0) {
-                        i++;
-                        continue;
-                    }
-                    if (result.size() == 1 && result.back() == '/') {
-                        i++;
-                        continue;
-                    } else {
+                    
+                    if (result.size() > 1 ) {
                         result.pop_back();
                         while (result.size() != 1 && result.back() != '/') result.pop_back();
                         if (!(result.size() == 1 && result.back() == '/')) result.pop_back();
                         i++;
                         continue;
                     }
+                    i++;
+                    continue;
                 } else {
                    result += temp_dots; 
                    i++;
                 }
-                //result += "/";
                 
             } else {
                 std::string temp_dir = "";
