@@ -1,39 +1,69 @@
-class Solution {
-    using Graph = std::vector<std::vector<int>>;
-    using Visited = std::vector<int>;
+class UnionFind{
+private:
+    std::vector<int> parent;
+    std::vector<int> rank;
+public:
 
-    Graph make_graph(int n, vector<vector<int>>& edges) {
-        Graph graph(n);
-        for (auto edge : edges) {
-            graph[edge[0]].push_back(edge[1]);
-            graph[edge[1]].push_back(edge[0]);
-        }
-
-        return graph;
-    } 
-
-    void dfs(int i, Graph &graph, Visited &v) {
-        v[i] = 1;
-
-        for (auto neighbor : graph[i]) {
-            if (v[neighbor] == 0) {
-                dfs(neighbor, graph, v);
-            }
-        }
+    UnionFind(int n) {
+        parent = std::vector<int>(n);
+        rank = std::vector<int>(n, 0);
+        for (int i = 0; i < n; i++) parent[i] = i;
     }
+        
+    
+    int find(int u) {
+        while (parent[u] != u) {
+            u = parent[u];
+        }
+
+        return u;
+    }
+    
+
+    // Return false if we have to union them (they are not already union)
+    // Return false if we don't have to union them (they are already union)
+    bool unite(int a, int b) {
+        auto pa = find(a);
+        auto pb = find(b);
+
+        if (pa != pb) {
+            auto& ra = rank[pa], rb = rank[pb];
+
+            if (ra <= rb) {
+                parent[pb] = pa;
+                ra += rb;
+            }
+            else if (ra > rb) {
+                parent[pa] = pb;
+                rb += rb;
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    int size() {
+        int count = 0;
+        for (int i = 0; i < parent.size(); i++) {
+            if (parent[i] == i) count++;
+        }
+        return count;
+    }
+
+
+};
+class Solution {
+
 public:
 
     int countComponents(int n, vector<vector<int>>& edges) {
-        Graph graph = make_graph(n, edges);     
-        Visited visited(n, 0);
-        int connected_components = 0;
-        for (int i = 0; i < n; i++) {
-            if (visited[i] == 0) {
-                dfs(i, graph, visited);
-                connected_components++;
-            }
+        auto uf = UnionFind(n);
+        for (auto edge : edges) {
+           uf.unite(edge[0], edge[1]);
         }
 
-        return connected_components;
+        return uf.size();
     }
 };
