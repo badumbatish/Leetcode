@@ -35,28 +35,20 @@ public:
                     } else break;
                 }
 
-                if (temp_dots == ".") {
-                   i++;
-                   if (result.size() > 1) result.pop_back();
-                   continue; 
-                } else if (temp_dots == "..") {
-
+                if (temp_dots == "..") {
                     // Pop until either we reach the root or we have met at least two slashes
-
-                    
                     if (result.size() > 1 ) {
                         result.pop_back();
                         while (result.size() != 1 && result.back() != '/') result.pop_back();
-                        if (!(result.size() == 1 && result.back() == '/')) result.pop_back();
                         i++;
                         continue;
                     }
-                    i++;
-                    continue;
-                } else {
+                    
+                } else if (temp_dots != ".") {
                    result += temp_dots; 
-                   i++;
                 }
+                i++;
+                continue;
                 
             } else {
                 std::string temp_dir = "";
