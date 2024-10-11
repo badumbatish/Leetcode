@@ -12,13 +12,18 @@ public:
         
     
     int find(int u) {
-        int v = u;
-        while (parent[u] != u) {
-            u = parent[u];
+        int root = u;
+        while (parent[root] != root) {
+            root = parent[root];
         }
-        parent[v] = u; 
 
-        return u;
+        while (parent[u] != u) {
+           int next = parent[u];
+           parent[u] = root;
+           u = next; 
+        }
+
+        return root;
     }
     
 
@@ -33,11 +38,11 @@ public:
 
             if (ra <= rb) {
                 parent[pb] = pa;
-                ra += rb;
+                ra += 1;
             }
             else if (ra > rb) {
                 parent[pa] = pb;
-                rb += rb;
+                rb += 1;
             }
 
             return true;
