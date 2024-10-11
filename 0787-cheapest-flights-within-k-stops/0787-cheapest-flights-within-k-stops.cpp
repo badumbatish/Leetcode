@@ -14,12 +14,12 @@ public:
 
         dist[src] = 0;
 
+        std::vector<int> temp(dist);
         for (int i = 0; i <= k; i++) {
-            std::vector<int> temp(dist);
             for (auto &flight : flights) {
                 temp[flight[1]] = min(temp[flight[1]], dist[flight[0]] + flight[2]);
             }
-            dist = temp;
+            std::swap(dist,temp);
         }
         return dist[dst] == numeric_limits<int>::max() / 2 ? -1 : dist[dst];
     }
