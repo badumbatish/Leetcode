@@ -1,30 +1,28 @@
 class Solution {
 public:
-bool validWordAbbreviation(string word, string abbr) {
-    int w = 0, a = 0;
-    
-    while (w < word.size() && a < abbr.size()) {
-        if (isdigit(abbr[a])) {
-            // Handle invalid leading zero case
-            if (abbr[a] == '0') return false;
-            
-            // Extract the full number from abbr
-            int num = 0;
-            while (a < abbr.size() && isdigit(abbr[a])) {
-                num = num * 10 + (abbr[a] - '0');
-                a++;
+    bool validWordAbbreviation(string word, string abbr) {
+        int i = 0, j =0;
+        int m = word.size(), n = abbr.size();
+        while ( i <  m && j < n) {
+            if (word[i] == abbr[j]) {
+                i++;
+                j++;
+
+            }  else if (abbr[j] - '0' == 0) {
+                return false;
+            } else {
+                int current_number = 0;
+
+                do {
+                    current_number = current_number * 10 + (abbr[j]- '0');
+                    j++;
+                } while (isdigit(abbr[j]));
+
+                std::cout << "i : " << i << std::endl;
+                i += current_number;
             }
-            // Skip num characters in word
-            w += num;
-        } else {
-            // Check if characters match
-            if (word[w] != abbr[a]) return false;
-            w++;
-            a++;
         }
+
+        return i == m && j == n;
     }
-    
-    // Both word and abbr should be fully traversed
-    return w == word.size() && a == abbr.size();
-}
 };
