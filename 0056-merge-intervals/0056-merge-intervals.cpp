@@ -9,7 +9,7 @@ public:
         
         for (auto &interval : intervals) {
             auto& last_interval = ans.back();
-            if (last_interval[1] < interval[0])  {
+            if (interval[0] > last_interval[1] )  {
                 ans.push_back(interval);
             } else {
                 last_interval[1] = std::max(last_interval[1], interval[1]);
