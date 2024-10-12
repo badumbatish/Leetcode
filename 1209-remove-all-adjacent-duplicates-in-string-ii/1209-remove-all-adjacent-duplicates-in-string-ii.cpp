@@ -19,15 +19,10 @@ public:
             //.   aa 
             //    aaa
 
-            if (result.size() < k - 1) {
-                result.push_back(ch);
-                continue;
-            } 
-            if (result.size() > 0 && result.back() != ch) {
+            if (result.size() < k - 1 ) {
                 result.push_back(ch);
                 continue;
             }
-
             result.push_back(ch);
 
             int count = 0;
@@ -47,8 +42,7 @@ public:
             // checks up to k and nothing happens
             // do we really need to recheck up to k again?
             if (count == k) {
-                while (count--) result.pop_back();
-
+                result.resize(result.size() - count);
                 check_from = 0;
             } 
         }
