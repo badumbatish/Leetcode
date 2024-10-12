@@ -13,6 +13,7 @@ public:
         // return the string
         std::string result = "";
 
+        int check_from = 0;
         for (char ch : s) {
             // "" a
             //.   aa 
@@ -32,22 +33,24 @@ public:
             int count = 0;
 
             // 4 - 3 = 1
-            for (int i = 0; i < result.size() + 1 - k ; i++) {
+            for (int i = check_from; i < result.size() + 1 - k ; i++, check_from++) {
                 for (int j = 0; j < k; j++) {
                     
                     if (result[i+j] == ch) count++;
                     else break; 
                 }
-                std::cout << std::endl;
                 if (count == k) break;
                 else {
                     count = 0;
                 }
             }
-
+            // checks up to k and nothing happens
+            // do we really need to recheck up to k again?
             if (count == k) {
                 while (count--) result.pop_back();
-            }
+
+                check_from = 0;
+            } 
         }
 
         return result;
