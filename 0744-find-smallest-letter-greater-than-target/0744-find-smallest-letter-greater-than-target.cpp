@@ -10,6 +10,7 @@ public:
             // if the current one is equal to target 
 
             // if the current one is larger than target, then we should shrink our right
+            // but it also satisfies the condition, so we store it result
             if (letters[mid] > target) {
                right = mid - 1; 
                 result = letters[mid];
