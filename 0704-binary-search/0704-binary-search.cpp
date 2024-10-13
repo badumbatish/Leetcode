@@ -7,7 +7,7 @@ public:
         while (left <= right) {
             // Consider our predicate that from middle to left is always < target
             // and middle to right is always >
-            int middle = (left + right) / 2;
+            int middle = (left + right + 1) / 2;
 
             int comp_target = nums[middle];
             if (target < comp_target) {
