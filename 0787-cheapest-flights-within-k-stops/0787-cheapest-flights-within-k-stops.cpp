@@ -23,23 +23,27 @@ public:
         auto graph = make_graph(n, flights);
         // Make pq (priority queue)
 
+        //
         std::priority_queue<Data, std::vector<Data>, greater<>> pq;
 
+        // Current cost is 0
+        // We were visiting src
+        // And we have used 0 stops
         pq.push({0, src, 0});
 
-        std::vector<int> visited(n, INT_MAX); 
-
+        std::vector<int> visited(n,  INT_MAX); 
+        // While pq .    
         while (!pq.empty()) {
+            // top(): the least cost element in pq
             auto [current_cost, node, num_stops] = pq.top(); pq.pop();
 
-            if ((num_stops != INT_MAX) && num_stops > visited[node] || num_stops > k + 1) continue;
+            // The pq implicit invariant is that if we have visited it before, the cost will be lesser than what is current
+            if (num_stops > visited[node] || num_stops > k + 1) continue;
 
             visited[node] = num_stops;
 
             if (node == dst) return current_cost;
-
-            for (auto [neighbor, flight_cost] : graph[node])
-                pq.push({current_cost + flight_cost, neighbor, num_stops + 1});
+            for (auto [neighbor, flight_cost] : graph[node]) pq.push({current_cost + flight_cost, neighbor, num_stops + 1});
         }
 
         return -1;
