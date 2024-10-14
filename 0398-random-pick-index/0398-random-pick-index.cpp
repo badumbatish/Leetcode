@@ -1,5 +1,5 @@
 class Solution {
-    std::map<int, std::vector<int>> mp;
+    std::unordered_map<int, std::vector<int>> mp;
 public:
 
     Solution(vector<int>& nums) {
