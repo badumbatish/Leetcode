@@ -10,17 +10,34 @@ public:
         return graph;
     }
     int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
-        std::vector<int> dist(n, std::numeric_limits<int>::max() / 2);
+        // Make a graph adj list
+        Graph graph = make_graph(flights);
 
-        dist[src] = 0;
+        // BFS
 
-        std::vector<int> temp(dist);
-        for (int i = 0; i <= k; i++) {
-            for (auto &flight : flights) {
-                temp[flight[1]] = min(temp[flight[1]], dist[flight[0]] + flight[2]);
+        // Have a priority queue orignally src 
+        // Tuple of 3: cost, node, level 
+        using Data = std::tuple<int, int>;
+        std::queue<Data> pq; 
+        std::vector<int> visited(n, INT_MAX);
+        pq.push({0, src});
+        visited[src]= 0;
+        int stops = 0 ;
+        // Go until we found dst 
+        while (stops <= k  && !pq.empty()) {
+            int sz = pq.size();
+            while (sz--) {
+                auto [price, node] = pq.front(); pq.pop();
+                for (auto [to, distance] : graph[node] ) {
+                    if (price + distance >= visited[to]) continue;
+                    visited[to] = price+ distance;
+                    pq.push({visited[to], to});
+                }
             }
-            std::swap(dist,temp);
+            stops++;
         }
-        return dist[dst] == numeric_limits<int>::max() / 2 ? -1 : dist[dst];
+        // return cheapest
+
+        return visited[dst] != INT_MAX ? visited[dst] : -1;
     }
 };
