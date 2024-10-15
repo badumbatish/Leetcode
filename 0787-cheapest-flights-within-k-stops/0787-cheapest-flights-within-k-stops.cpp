@@ -24,7 +24,7 @@ public:
         auto temp = bellman;
         for (int i = 0; i <= k; i++) {
             std::cout << "k is " << i << std::endl;
-            for (auto flight : flights) {
+            for (auto& flight : flights) {
                 if (bellman[flight[0]] == INT_MAX) continue;
                 temp[flight[1]] = std::min(temp[flight[1]], bellman[flight[0]] + flight[2]);
                 std::cout << flight[1] << " " << temp[flight[1]] << std::endl;
