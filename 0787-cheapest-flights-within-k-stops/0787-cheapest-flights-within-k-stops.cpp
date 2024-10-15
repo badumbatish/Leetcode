@@ -19,33 +19,21 @@ class Solution {
     using Data = std::tuple<int, int, int>;
 public:
     int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
-        // Make graph
-        auto graph = make_graph(n, flights);
-        // Make pq (priority queue)
-
-        //
-        std::priority_queue<Data, std::vector<Data>, greater<>> pq;
-
-        // Current cost is 0
-        // We were visiting src
-        // And we have used 0 stops
-        pq.push({0, src, 0});
-
-        std::vector<int> visited(n,  INT_MAX); 
-        // While pq .    
-        while (!pq.empty()) {
-            // top(): the least cost element in pq
-            auto [current_cost, node, num_stops] = pq.top(); pq.pop();
-
-            // The pq implicit invariant is that if we have visited it before, the cost will be lesser than what is current
-            if (num_stops > visited[node] || num_stops > k + 1) continue;
-
-            visited[node] = num_stops;
-
-            if (node == dst) return current_cost;
-            for (auto [neighbor, flight_cost] : graph[node]) pq.push({current_cost + flight_cost, neighbor, num_stops + 1});
+        std::vector<int> bellman(n, INT_MAX);
+        bellman[src]  = 0;
+        for (int i = 0; i <= k; i++) {
+            auto temp = bellman;
+            std::cout << "k is " << k << std::endl;
+            for (auto flight : flights) {
+                if (bellman[flight[0]] == INT_MAX) continue;
+                temp[flight[1]] = std::min(temp[flight[1]], bellman[flight[0]] + flight[2]);
+                std::cout << flight[1] << " " << temp[flight[1]] << std::endl;
+            }
+            bellman = temp;
         }
-
-        return -1;
+        if (bellman[dst] == INT_MAX ){
+            return -1;
+        } 
+        return bellman[dst];
     }
 };
