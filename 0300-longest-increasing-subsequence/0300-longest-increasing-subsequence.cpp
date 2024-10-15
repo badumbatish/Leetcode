@@ -1,20 +1,14 @@
 class Solution {
 public:
     int lengthOfLIS(vector<int>& nums) {
-        std::vector<int> sub = {nums[0]};
+        std::vector<int> dp(nums.size(), 1);
 
         for (int i = 1; i < nums.size(); i++) {
-            int num = nums[i];
-
-            if (num > sub.back()) {
-                sub.push_back(num);
-            } else {
-                int j = std::lower_bound(sub.begin(), sub.end(), num) - sub.begin();
-
-                sub[j] = num;
+            for (int j = 0; j < i; j++) {
+                if (nums[i] > nums[j]) dp[i] = std::max(dp[i], dp[j] + 1);
             }
-        }
-
-        return sub.size();
-    }
+        } 
+        
+        return *std::max_element(dp.begin(), dp.end());
+    } 
 };
