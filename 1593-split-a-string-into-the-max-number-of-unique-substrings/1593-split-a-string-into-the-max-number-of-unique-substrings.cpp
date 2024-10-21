@@ -1,26 +1,33 @@
 class Solution {
     std::unordered_set<std::string> seen;
+    int max_count = 0;
 public:
     int maxUniqueSplit(string s) {
-       return backtrack(s, 0);
+       backtrack(s, 0,0);
+       return max_count;
     }
 
-    int backtrack(const std::string& s, size_t start) {
-        if (start == s.size()) return 0;
+    void backtrack(const std::string& s, int current_count, size_t start) {
 
-        int max_count = 0;
+                // Prune: If the current count plus remaining characters can't exceed
+        // maxCount, return
+        if (current_count + (s.size() - start) <= max_count) return;
+        if (start == s.size()) {
+            max_count = max(max_count, current_count);
+            return;
+        }
+
 
         for (auto end = start + 1; end <= s.size(); end++) {
             std::string substring = s.substr(start, end - start);
             if (seen.find(substring) == seen.end()) {
                 seen.insert(substring);
 
-                max_count = std::max(max_count,  1 + backtrack(s, end));
+                backtrack(s, current_count + 1, end);
 
                 seen.erase(substring);
             }
         }
 
-        return max_count;
     }
 };
