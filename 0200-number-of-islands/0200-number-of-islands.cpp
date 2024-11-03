@@ -1,50 +1,34 @@
 class Solution {
-private:
-    bool visited[301][301] = {false};
-    int count = 0;
-    int row_size;
-    int col_size;
+    bool visited[301][301] = { false};
+    int rows = 0;
+    int cols = 0;
+    int num_island = 0;
 public:
     int numIslands(vector<vector<char>>& grid) {
-        row_size = grid.size();
-        col_size = grid[0].size();
+        rows = grid.size();
+        cols = grid[0].size();
 
-
-        //memset(visited, 0, sizeof(visited) );
-
-        for (int row = 0; row < grid.size(); row++) {
-            for (int col = 0; col < grid[0].size(); col++) {
-                if (grid[row][col] == '1' && visited[row][col] == false) {
-                    dfs(row, col, grid);
-                    count++;
+        for (int i = 0; i < grid.size(); i++) {
+            for (int j = 0; j < grid[i].size(); j++) {
+                if (grid[i][j] == '1') {
+                    dfs(grid, i , j);
+                    num_island++;
                 }
             }
-        }
-
-        return count;
+        }     
+        return num_island;
     }
 
-    void dfs(int row, int col, std::vector<std::vector<char>> &grid) {
-        visited[row][col] = true;
+    void dfs(std::vector<std::vector<char>>&grid, int row, int col) {
+        grid[row][col] = '0';
+        static std::vector<std::tuple<int, int>> dirs = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
 
-        // 0, 1
-        // 1, 0
-        // -1, 0
-        // 0, -1
-        static std::vector<int> traverseA = {0, 1, -1, 0};
-        static std::vector<int> traverseB = {1, 0, 0, -1};
+        for (auto [row_dir, col_dir] : dirs) {
+            int new_row = row + row_dir, new_col = col + col_dir;
+            if (!(0 <= new_row && new_row < rows)) continue;
+            if (!(0 <= new_col && new_col < cols)) continue;
 
-        for(int i = 0; i < 4; i++) {
-            auto a = row+traverseA[i];
-            auto b = col+traverseB[i];
-            if (isWithin(a, b) && grid[a][b] == '1' && !visited[a][b]) dfs(a, b, grid);
+            if (grid[new_row][new_col] == '1') dfs(grid, new_row, new_col);
         }
-    }
-
-    bool isWithin(int row, int col) {
-        auto r = 0 <= row && row < row_size;
-        auto c = 0 <= col && col < col_size;
-
-        return r && c;
     }
 };
