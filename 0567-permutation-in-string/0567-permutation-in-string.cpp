@@ -6,21 +6,22 @@ public:
         auto len = s1.size();
 
         std::map<char, int> s1_sig;
+        std::map<char, int> sub_sig;
+        for (char ch = 'a'; ch <= 'z'; ch++) {
+            s1_sig[ch];
+            sub_sig[ch];
+        }
         for (int i = 0; i < len; i++) {
             s1_sig[s1[i]]++;
+            sub_sig[s2[i]]++;
         }
 
-        std::map<char, int> sub_sig;
-        for (int i = 0; i < s2.size() - len + 1; i++) {
-             
-            for (int j = 0; j < len; j++) {
-                sub_sig[s2[i+j]]++;
-            }
+        for (int i = 0; i < s2.size() - len ; i++) {
             if (sub_sig == s1_sig) return true;
-            sub_sig = std::map<char, int>();
+            sub_sig[s2[i]]--;
+            sub_sig[s2[i+len]]++;
         }
 
-        std::cout << "hi" << std::endl;
-        return false;
+        return sub_sig == s1_sig;
     }
 };
