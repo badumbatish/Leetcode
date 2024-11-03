@@ -16,30 +16,25 @@ public:
         Graph graph = make_graph(numCourses, prerequisites);
         std::vector<int> indegree(numCourses, 0);
 
-        for (auto preq : prerequisites) {
-            indegree[preq[0]]++;
-        } 
+        for (auto preq : prerequisites) indegree[preq[0]]++;
+
         std::queue<int> q;
-        for (int i = 0; i < numCourses; i++) 
+        for (int i = 0; i < indegree.size(); i++) {
             if (indegree[i] == 0) q.push(i);
+        }
 
-        int nodesVisited = 0;
-
+        int course_learned = 0;
         while (!q.empty()) {
-            int node = q.front(); q.pop();
+            course_learned++;
 
-            nodesVisited++;
-
-
-            for (auto& neighbor : graph[node]) {
-                indegree[neighbor]--;
-                if (indegree[neighbor] == 0) {
-                    q.push(neighbor);
-                }
+            auto course = q.front(); q.pop(); 
+            for (auto preq : graph[course]) {
+                indegree[preq]--;
+                if (indegree[preq] == 0) q.push(preq);
             }
-        } 
+        }
 
-        return nodesVisited == numCourses;
+        return course_learned == numCourses;
     }
 
 
