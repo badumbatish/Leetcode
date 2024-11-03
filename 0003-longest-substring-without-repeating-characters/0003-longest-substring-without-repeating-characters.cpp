@@ -1,20 +1,25 @@
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
-        int n = s.size();
-        std::unordered_map<int, int> ump;
 
-        int j = 0, i = 0;
+        std::unordered_map<char, int> freq_map;
+
+        int left = 0, right = 0;
 
         int res = 0;
 
-        for (j = 0, i = 0; j < n; j++) {
-            auto &m = ump[s[j]];
-            if (m > 0) {
-                i = max(m, i);
+        while (right < s.size()) {
+            char r = s[right];
+            freq_map[r]++;
+
+            while (freq_map[r] > 1) {
+                char l = s[left];
+                freq_map[l]--;
+                left++;
             }
-            res = max(res, j - i + 1);
-            m = j + 1;
+
+            res = std::max(res, right - left + 1);
+            right++;
         }
 
         return res;
