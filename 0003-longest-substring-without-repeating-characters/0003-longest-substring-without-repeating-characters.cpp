@@ -5,23 +5,20 @@ public:
         std::unordered_map<char, int> freq_map;
 
         int left = 0, right = 0;
-
-        int res = 0;
-
+        int max_len = 0;
         while (right < s.size()) {
-            char r = s[right];
-            freq_map[r]++;
+            char ch_r = s[right];
+            freq_map[ch_r]++;
 
-            while (freq_map[r] > 1) {
-                char l = s[left];
-                freq_map[l]--;
+            while (freq_map[ch_r] > 1) {
+                char ch_l = s[left];
+                freq_map[ch_l]--;
                 left++;
             }
-
-            res = std::max(res, right - left + 1);
-            right++;
+            max_len = max(max_len, right-left+1);
+            right++; 
         }
 
-        return res;
+        return max_len;
     }
 };
