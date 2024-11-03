@@ -13,7 +13,7 @@ public:
             prefix += ch;
 
             // Get the index where we'll start searching
-            start = std::lower_bound(products.begin() + bsStart, products.end(), prefix) -  products.begin();
+            start = std::lower_bound(products.begin() , products.end(), prefix) -  products.begin();
 
             result.push_back({});
 
@@ -24,7 +24,7 @@ public:
                 result.back().push_back(products[i]);
             }
 
-            bsStart = start;
+            //bsStart = start;
         }
 
         return result;
