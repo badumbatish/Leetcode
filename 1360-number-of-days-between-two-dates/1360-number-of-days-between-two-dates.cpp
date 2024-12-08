@@ -15,7 +15,7 @@ class TimeAnalyzer {
     }
     int year_to_int() {
         int accum = 0;
-        for (int i = 0; i < year; i++) {
+        for (int i = 1971; i < year; i++) {
             if (is_leap_year(i)) accum +=  366;
             else accum += 365;
         }
@@ -40,7 +40,7 @@ class TimeAnalyzer {
     }
 
 public:
-    TimeAnalyzer(std::string date) : date(date) {
+    TimeAnalyzer(const std::string&date) : date(date) {
         year = stoi(date.substr(0, 4));
         month = stoi(date.substr(5, 2));
         day = stoi(date.substr(8, 2));
