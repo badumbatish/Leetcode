@@ -6,15 +6,18 @@ public:
         for (auto ch : s) {
             if (ch == '(' || ch == '{' || ch == '[') {
                 stck.push(ch);
-            } else {
-                if (stck.empty()) return false;
+                continue;
+            } 
+            if (stck.empty()) return false;
 
-                auto match = stck.top();
-                stck.pop();
-                if (ch - match <= 2) continue;
+            auto match = stck.top();
+            stck.pop();
+            if (match == '[' && ch == ']') continue;
+            if (match == '{' && ch == '}') continue;
+            if (match == '(' && ch == ')') continue;
 
-                else return false;
-            }
+            return false;
+            
         }
 
         return stck.empty();
