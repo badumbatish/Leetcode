@@ -4,7 +4,7 @@ private:
 // the back of the list is least recently used.
     int capacity; // capacity of the lru
     std::list<std::pair<int, int>> lru; // the head of the lru linked list 
-    std::map<int, std::list<std::pair<int, int>>::iterator> mp; // a map that maps a key to the node of the linked list
+    std::unordered_map<int, std::list<std::pair<int, int>>::iterator> mp; // a map that maps a key to the node of the linked list
 public:
     LRUCache(int capacity) : capacity(capacity) {}
     
