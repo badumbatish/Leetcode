@@ -1,46 +1,37 @@
 class Solution {
-
-
-    using Cost = int;
     using Dest = int;
+    using Cost = int;
     using NumStop = int;
-    using Data = std::tuple<int, int, int>;
-    using Graph = std::vector<std::vector<std::tuple<Dest, Cost>>>;
-    // 0 -> [....]  
-    // 1 -> [...........]  
-    // 2 -> [..]
 
-    Graph make_graph(int n, vector<vector<int>>& flights) {
-        Graph graph(n);
-
-        for (auto flight : flights) {
-            graph[flight[0]].push_back({flight[1], flight[2]});
-        }
-
-        return graph;
+    using Graph = std::vector<std::vector<std::pair<Dest, Cost>>>;
+    Graph make_graph(int n, vector<vector<int>>& flight) {
+        Graph g = Graph(n);
+            for (auto info : flight) {
+                g[info[0]].push_back({info[1], info[2]});
+            }
+        return g;
     }
     
-
-    // Current cost of flight - desitination - # of stops
+    using Data = std::tuple<Cost, Dest, NumStop>;
 public:
     int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
         auto graph = make_graph(n, flights);
-        std::priority_queue<Data, std::vector<Data>, greater<>> pq;
+        std::priority_queue<Data, std::vector<Data>, std::greater<>> pq;
 
         pq.push({0, src, 0});
 
-        std::vector<int> visited(n,  INT_MAX); 
+        std::vector<int> visited(n, INT_MAX);
+        visited[src] = 0;
+
         while (!pq.empty()) {
-            auto [current_cost, node, num_stops] = pq.top(); pq.pop();
+            auto [curr_cost, node, num_stop] = pq.top(); pq.pop();
 
-            if (num_stops > visited[node] || num_stops > k + 1) continue;
+            if (curr_cost > visited[node] || num_stop > k + 1) continue;
+            visited[node] = curr_cost;
+            if (node == dst) return curr_cost;
 
-            visited[node] = num_stops;
-
-            if (node == dst) return current_cost;
-            if (num_stops > k) continue;
-            for (auto [neighbor, flight_cost] : graph[node]) {
-                pq.push({current_cost + flight_cost, neighbor, num_stops + 1});
+            for (auto [neighbor, cost] : graph[node]) {
+                pq.push({curr_cost + cost, neighbor, num_stop + 1});
             }
         }
 
