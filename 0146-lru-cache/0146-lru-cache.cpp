@@ -1,41 +1,33 @@
 class LRUCache {
-private:
-// In this scheme, the front of list is most recently used.
-// the back of the list is least recently used.
-    int capacity; // capacity of the lru
-    std::list<std::pair<int, int>> lru; // the head of the lru linked list 
-    std::unordered_map<int, std::list<std::pair<int, int>>::iterator> mp; // a map that maps a key to the node of the linked list
+    std::list<std::pair<int, int>> lq;
+    std::unordered_map<int, decltype(lq.begin())> mp;
+
+    int capacity = 0;
+    int curr_size = 0;
 public:
-    LRUCache(int capacity) : capacity(capacity) {}
+    LRUCache(int capacity) : capacity(capacity) {
+        
+    }
     
     int get(int key) {
-        auto it = mp.find(key);
-
-        if (it == mp.end()) return -1;
-
-        auto value = it->second->second;
-        put(key, value);
-
-        return value;
+        if (!mp.contains(key)) return -1;
+        put(key, mp[key]->second);
+        return mp[key]->second; 
     }
     
     void put(int key, int value) {
-        auto it = mp.find(key);
-
-        if (it != mp.end()) {
-            lru.erase(it->second);
-            mp.erase(it);
+        if (mp.contains(key)) {
+            lq.erase(mp[key]);
+            mp.erase(key);
         }
-
-        lru.push_front({key, value});
-        mp[key] =  lru.begin();
-
+        
+        lq.push_front({key, value});
+        mp[key] = lq.begin();
         if (mp.size() > capacity) {
-            auto it = mp.find(lru.rbegin()->first);
-            mp.erase(it);
-            lru.pop_back();
+            mp.erase(lq.rbegin()->first);
+            lq.pop_back();
+            curr_size--;
         }
-
     }
 };
 
