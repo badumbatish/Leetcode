@@ -1,15 +1,15 @@
+#include <ranges>
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
-        std::map<int, int> mp;
-        for (int i = 0; i < nums.size(); i++) mp[nums[i]] = i;
+        
+        std::unordered_map<int, int> mp;
+        for (auto [i, num] : std::ranges::views::enumerate(nums)) {
+            if (mp.contains(target-num)) return {mp[target-num], (int)i};
 
-        for (int i = 0; i < nums.size(); i++) {
-            if (mp.count(target - nums[i]) && mp[target - nums[i]] != i) {
-                return {i, mp[target - nums[i]]};
-            } 
+            mp[num] = i;
         }
 
-        return {};
+        return {-1, -1};
     }
 };
