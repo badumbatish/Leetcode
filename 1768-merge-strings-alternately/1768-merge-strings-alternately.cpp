@@ -1,13 +1,22 @@
 class Solution {
 public:
     string mergeAlternately(string word1, string word2) {
-        int i = 0, j = 0, m = word1.size(), n = word2.size();
-        std::string res;
+        int left = 0, right = 0;
+        int m = word1.size(), n = word2.size();
 
-        while (i < m || j < n) {
-            if (i < m) res.push_back(word1[i++]);
-            if (j < n) res.push_back(word2[j++]);
-        }   
-        return res;
+        std::string s;
+        while (left < m && right < n) {
+            s.push_back(word1[left++]);
+            s.push_back(word2[right++]);
+        }
+
+        while (left < m) {
+            s.push_back(word1[left++]);
+        }
+        while (right < n) {
+            s.push_back(word2[right++]);
+        }
+
+        return s;
     }
 };
