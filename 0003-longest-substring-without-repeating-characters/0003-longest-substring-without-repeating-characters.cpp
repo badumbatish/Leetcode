@@ -5,15 +5,14 @@ class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
         size_t max_length = 0;
-        for (auto [i, ch1] : enumerate(s)) {
-            std::unordered_set<char> char_set;
-            for (auto [j, ch2] : enumerate(s) | drop(i)) {
-                char_set.insert(ch2);
-                if (char_set.size() != (j-i+1)) break;
-                max_length = std::max(max_length, (size_t)j-i+1);
-            }
+        std::unordered_map<char, int> last_seen_map;
+        size_t length = 0;
+        size_t start = 0;
+        for (auto [i, ch] : enumerate(s)) {
+            if (last_seen_map[ch] > 0) start = std::max((size_t)last_seen_map[ch], (size_t)start);
+            max_length = std::max(max_length, i - start + 1);
+            last_seen_map[ch] = i + 1;
         }
-
         return max_length;
     }
 };
