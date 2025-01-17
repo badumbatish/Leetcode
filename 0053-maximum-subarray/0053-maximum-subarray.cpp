@@ -1,14 +1,15 @@
+#include <ranges>
+using namespace ranges;
+using namespace views;
 class Solution {
 public:
     int maxSubArray(vector<int>& nums) {
-        int curr_sum = nums.front();
-        int max_sum = nums.front();
+        int curr_sum = nums.front(), best_sum = nums.front();
 
-        for (int i = 1; i < nums.size(); i++) {
-            curr_sum = max(curr_sum + nums[i], nums[i]);
-            max_sum = max(curr_sum , max_sum);
+        for (auto num : nums | drop(1)) {
+            curr_sum = std::max(curr_sum + num, num);
+            best_sum = std::max(curr_sum, best_sum);
         }
-
-        return max_sum;
+        return best_sum;
     }
 };
