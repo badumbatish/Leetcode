@@ -1,16 +1,12 @@
 class Solution {
 public:
     int majorityElement(vector<int>& nums) {
-        int count = 0;
-        int candidate;
-
-        for (int& num : nums) {
-            if (count == 0) {
-                candidate = num;
+        int majorityCount = nums.size() / 2;
+        while (true) {
+            int candidate = nums[rand() % nums.size()];
+            if (std::ranges::count_if(nums, [&](auto num) { return candidate == num; }) > majorityCount) {
+                return candidate;
             }
-            count += (num == candidate) ? 1 : -1;
         }
-
-        return candidate;
     }
 };
