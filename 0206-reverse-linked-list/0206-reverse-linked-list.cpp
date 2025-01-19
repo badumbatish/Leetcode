@@ -14,19 +14,11 @@ public:
 
         ListNode* prev = nullptr;
         while (head) {
-            std::cout << "head: " << head->val << std::endl;
             auto temp = head->next;
             head->next = prev;
             prev = head;
             head = temp;
         }
-        auto it = prev;
-        while (it) {
-            std::cout << it->val << std::endl;
-            it = it->next;
-        }
-        if (prev) 
-            std::cout << "Prev: " << prev->val << std::endl;
 
         return prev;
     }
