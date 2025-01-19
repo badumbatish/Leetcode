@@ -1,21 +1,24 @@
 class Solution {
 public:
     void nextPermutation(vector<int>& nums) {
-        int i = nums.size() - 2;
-        while (i >= 0 && nums[i+1] <= nums[i]) { // Get first decreasing from the right
-            i--;
+        int next_to_decrease = nums.size() -2;
+        while(next_to_decrease >= 0) {
+            if (nums[next_to_decrease] < nums[next_to_decrease + 1])
+                break;
+            else next_to_decrease--;
         }
-
-        std::cout << i << std::endl;
-
-        if (i >= 0) { // Get the next value from the current nums[i]
-            int j = nums.size() - 1;
-            while (nums[j] <= nums[i]) {
-                j--;
+        std::cout << "Index is" << next_to_decrease << std::endl;
+        if (next_to_decrease == -1) {
+            std::ranges::sort(nums);
+            return;
+        }
+        int n = nums[next_to_decrease];
+        for (int i = nums.size() - 1; i >= 0; i--) {
+            if (nums[i] > n) {
+                std::swap(nums[i], nums[next_to_decrease]);
+                std::sort(nums.begin() + next_to_decrease + 1, nums.end());
+                break;
             }
-            swap(nums[i], nums[j]);
         }
-
-        std::reverse(nums.begin() + i + 1, nums.end());
     }
 };
