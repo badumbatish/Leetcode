@@ -15,20 +15,10 @@ public:
         ListNode* prev = nullptr;
         while (head) {
             std::cout << "head: " << head->val << std::endl;
-            if (prev == nullptr) {
-                auto temp = head->next;
-                prev = head;
-                prev->next = nullptr;
-                head = temp;
-                continue;
-            } else {
-                std::cout << "Prev: " << prev->val << std::endl;
-                auto temp = head->next;
-                head->next = prev;
-                prev = head;
-                head = temp;
-                continue;
-            }
+            auto temp = head->next;
+            head->next = prev;
+            prev = head;
+            head = temp;
         }
         auto it = prev;
         while (it) {
