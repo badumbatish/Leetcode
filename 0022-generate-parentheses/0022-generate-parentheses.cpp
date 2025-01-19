@@ -13,25 +13,25 @@ class Solution {
     std::string temp = "";
     int n;
     std::vector<std::string> result;
-    void dfs() {
-        if (temp.size() == n) {
-            std::cout << temp << std::endl; 
-            if (is_valid(temp))
-                result.push_back(temp);
+    void dfs(int left_count = 0, int right_count = 0) {
+        if (temp.size() == n * 2) {
+            result.push_back(temp);
             return;
         }
-        static std::array<std::string, 4> options = { "()", "((", "))", ")("};
-        for (auto option : options) {
-            temp += option;
-            dfs();
-            temp.pop_back();
+        if (left_count < n) {
+            temp += '(';
+            dfs(left_count+1, right_count);
             temp.pop_back();
         }
-
+        if (left_count > right_count) {
+            temp += ')';
+            dfs(left_count, right_count+1);
+            temp.pop_back();
+        }
     }
 public:
     vector<string> generateParenthesis(int n) {
-        this->n = n * 2;
+        this->n = n ;
         dfs();
         return result;
     }
