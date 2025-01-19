@@ -1,13 +1,13 @@
 class Solution {
 public:
-    void moveZeroes(std::vector<int> & nums) {
-        int fast_ptr = 0;
-        int slow_ptr = 0;
-
-        for (; fast_ptr < nums.size(); fast_ptr++) {
-            if (nums[fast_ptr] != 0) {
-                swap(nums[fast_ptr], nums[slow_ptr++]);
+    void moveZeroes(vector<int>& nums) {
+        int move_into = 0;
+        int potential_movers = 1;
+        while (potential_movers < nums.size()) {
+            if (nums[potential_movers] != 0) {
+                std::swap(nums[potential_movers], nums[move_into++]);
             }
+            potential_movers++;
         }
     }
 };
