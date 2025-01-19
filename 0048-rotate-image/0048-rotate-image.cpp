@@ -4,18 +4,19 @@ public:
         int n = matrix.size();
         std::vector<std::vector<int>> v(n, std::vector<int>(n, 0));
         int count = 0;
-        for (int i = 0; i < (n+1) / 2; i++) {
-            for (int j = 0; j < n / 2; j++) {
-                
-                int temp = matrix[n - 1 - j][i];
-                matrix[n-1 -j][i] = matrix[n-1-i][n-j-1];
-                matrix[n-1-i][n-j-1] = matrix[j][n-1-i];
-                matrix[j][n -1 -i] = matrix[i][j];
-                matrix[i][j] = temp;
-                v[n-1 -j][i] = count++;
-                v[n-1-i][n-j-1] = count++;
-                v[j][n-1-i] = count++;
-                v[i][j] =  count++;
+        for (int row = 0; row < (n+1) / 2; row++) {
+            std::cout << "New loop, count is at " << count << std::endl;
+            for (int col = 0; col < n / 2; col++) {
+                std::cout << "Touching " << row << " " << col << std::endl;
+                int temp = matrix[n - 1 - col][row];
+                matrix[n-1 -col][row] = matrix[n-1-row][n-col-1];
+                matrix[n-1-row][n-col-1] = matrix[col][n-1-row];
+                matrix[col][n -1 -row] = matrix[row][col];
+                matrix[row][col] = temp;
+                v[n-1 -col][row] = count++;
+                v[n-1-row][n-col-1] = count++;
+                v[col][n-1-row] = count++;
+                v[row][col] =  count++;
             }
         }
         
