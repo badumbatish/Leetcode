@@ -1,40 +1,30 @@
 class Solution {
-    using Dest = int;
-    using Cost = int;
-    using NumStop = int;
-
-    using Graph = std::vector<std::vector<std::pair<Dest, Cost>>>;
-    Graph make_graph(int n, vector<vector<int>>& flight) {
-        Graph g = Graph(n);
-            for (auto info : flight) {
-                g[info[0]].push_back({info[1], info[2]});
-            }
-        return g;
-    }
-    
-    using Data = std::tuple<Cost, Dest, NumStop>;
 public:
     int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
-        auto graph = make_graph(n, flights);
-        std::priority_queue<Data, std::vector<Data>, std::greater<>> pq;
-
-        pq.push({0, src, 0});
-
-        std::vector<int> visited(n, INT_MAX);
-        visited[src] = 0;
-
-        while (!pq.empty()) {
-            auto [curr_cost, node, num_stop] = pq.top(); pq.pop();
-
-            if (curr_cost > visited[node] || num_stop > k + 1) continue;
-            visited[node] = curr_cost;
-            if (node == dst) return curr_cost;
-
-            for (auto [neighbor, cost] : graph[node]) {
-                pq.push({curr_cost + cost, neighbor, num_stop + 1});
-            }
+        vector<vector<pair<int, int>>> adj(n);
+        for (auto& e : flights) {
+            adj[e[0]].push_back({e[1], e[2]});
         }
+        vector<int> dist(n, numeric_limits<int>::max());
+        queue<pair<int, int>> q;
+        q.push({src, 0});
+        int stops = 0;
 
-        return -1;
+        while (stops <= k && !q.empty()) {
+            int sz = q.size();
+            // Iterate on current level.
+            while (sz--) {
+                auto [node, distance] = q.front();
+                q.pop();
+                // Iterate over neighbors of popped node.
+                for (auto& [neighbour, price] : adj[node]) {
+                    if (price + distance >= dist[neighbour]) continue;
+                    dist[neighbour] = price + distance;
+                    q.push({neighbour, dist[neighbour]});
+                }
+            }
+            stops++;
+        }
+        return dist[dst] == numeric_limits<int>::max() ? -1 : dist[dst];
     }
 };
