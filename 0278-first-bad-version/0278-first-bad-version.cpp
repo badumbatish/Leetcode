@@ -4,19 +4,12 @@
 class Solution {
 public:
     int firstBadVersion(int n) {
-        int left = 0, right = n;
-        int first_bad = -1;
-        // f f f t t t t
-        while (left <= right) {
-            int mid = left + (right - left)/2;
-            if (isBadVersion(mid) == true){
-                right =  mid - 1;
-                first_bad = mid;
-            } else {
-                left = mid + 1;
-            }
+        int lo = 0, hi = n;
+        while (lo + 1 < hi) {
+            auto mid = lo + (hi - lo)/2;
+            if (isBadVersion(mid)) hi = mid;
+            else lo = mid;
         }
-
-        return first_bad;
+        return hi;
     }
 };
