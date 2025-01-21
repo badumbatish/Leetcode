@@ -1,24 +1,14 @@
 class Solution {
 public:
     int search(vector<int>& nums, int target) {
-        int left = 0;
-        int right = nums.size() - 1;
+        int low = -1, high = nums.size() - 1;
 
-        while (left <= right) {
-            // Consider our predicate that from middle to left is always < target
-            // and middle to right is always >
-            int middle = (left + right + 1) / 2;
-
-            int comp_target = nums[middle];
-            if (target < comp_target) {
-                right = middle - 1;
-            } else if (target > comp_target) {
-                left = middle + 1;
-            } else {
-                return middle;
-            }
+        while (low + 1 < high) {
+            int mid = low + (high - low) / 2;
+            if (nums[mid] >= target) high = mid;
+            else low = mid;
         }
-
-        return -1;
+        
+        return nums[high] != target ? -1 : high;
     }
 };
