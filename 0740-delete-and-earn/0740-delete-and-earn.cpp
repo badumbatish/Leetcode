@@ -1,6 +1,5 @@
 class Solution {
-    std::map<int, int> cache;
-    std::map<int, int> mp;
+    std::unordered_map<uint16_t, uint16_t> mp;
 
 public:
     int deleteAndEarn(vector<int>& nums) {
