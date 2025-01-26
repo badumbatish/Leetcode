@@ -10,7 +10,7 @@ public:
         if (rem < 0) return -1;
         if (rem == 0) return 0;
 
-        if (ump[rem-1] != 0) return ump[rem-1];
+        if (ump[rem] != 0) return ump[rem];
         
         int mini = INT_MAX;
         for (auto coin : coins) {
@@ -20,8 +20,8 @@ public:
             }
         }
 
-        ump[rem-1] = (mini == INT_MAX) ? - 1 : mini;
+        ump[rem] = (mini == INT_MAX) ? - 1 : mini;
 
-        return ump[rem-1];
+        return ump[rem];
     }
 };
