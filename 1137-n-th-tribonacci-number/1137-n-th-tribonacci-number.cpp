@@ -1,18 +1,16 @@
 class Solution {
-    std::map<int, int> memory;
-
 public:
     int tribonacci(int n) {
+        int zero = 0, one = 1, two = 1;
         if (n == 0) return 0;
-        if (n == 1) return 1;
-        if (n == 2) return 1;
+        else if (n == 1 || n == 2) return 1;
 
-        for (int i = 3; i >= 1; i--) {
-            if (memory.find(n-i) == memory.end()) {
-                memory[n-i] = tribonacci(n-i);
-            }
+        for (int i = 3; i <= n; i++) {
+            int temp = zero + one + two;
+            zero = one;
+            one = two;
+            two = temp;
         }
-       
-        return memory[n-1] + memory[n-2] + memory[n-3];
+        return two;
     }
 };
