@@ -15,9 +15,12 @@ public:
         if (num == 0) return 0;
         else if (num == 1) return mp[1];
 
-        if (cache.contains(num)) return cache[num];
-        
-        cache[num] = std::max(max_points(num-1), max_points(num-2) + mp[num]);
-        return cache[num];
+        int prev = 0, current = mp[1];
+        for (int i = 2; i <= num; i++) {
+            auto temp = current;
+            current = std::max(current, prev + mp[i]);
+            prev = temp;
+        }
+        return current;
     }
 };
