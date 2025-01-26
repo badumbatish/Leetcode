@@ -1,25 +1,30 @@
 class Solution {
+    std::unordered_map<int, bool> memo;
+    std::set<std::string> word_dict;
+    std::string s;
 public:
     bool wordBreak(string s, vector<string>& wordDict) {
-        std::unordered_set<std::string> words(wordDict.begin(), wordDict.end());
+        this->s = s;
+        this->word_dict = std::set(wordDict.begin(), wordDict.end());
+        return dp(s.length() - 1);
+    }
 
-        std::queue<int> queue;
-        std::vector<bool>seen(s.length(), false);
+    bool dp(int i) {
+        if (i < 0) return true;
 
-        queue.push(0);
+        if (memo.contains(i)) return memo[i];
 
-        while (!queue.empty()) {
-            int start = queue.front(); queue.pop();
-            if (start == s.length()) return true;
+        for (auto word : word_dict) {
+            int size = word.size();
 
-            for (int end = start + 1;  end <= s.length(); end++) {
-                if (seen[end]) continue;
-                if (words.find(s.substr(start, end - start)) != words.end()) {
-                    queue.push(end);
-                    seen[end] = true;
-                }
+            if (i - size + 1 < 0) continue;
+
+            if (s.substr(i - size + 1, size) == word && dp(i - size)) {
+                memo[i] = true;
+                return true;
             }
         }
+        memo[i] = false;
         return false;
     }
 };
