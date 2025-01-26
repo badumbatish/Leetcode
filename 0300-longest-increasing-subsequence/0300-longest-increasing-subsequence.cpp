@@ -1,23 +1,16 @@
 class Solution {
 public:
     int lengthOfLIS(vector<int>& nums) {
-        std::vector<int> sub = {nums[0]};
+        std::vector<int> dp(nums.size(), 1);
 
+        // In the DPV textbook, we define (i, j) to have an edge if nums[j] < nums[i]
         for (int i = 1; i < nums.size(); i++) {
-            int num = nums[i];
-
-            if (num > sub.back()) {
-                sub.push_back(num);
-            } else {
-                int j = 0;
-                while (num > sub[j]) {
-                    j += 1;
-                }
-
-                sub[j] = num;
+            for (int j = 0; j < i; j++) {
+                if (nums[j] < nums[i])
+                    dp[i] = std::max(dp[i], dp[j] + 1);
             }
         }
 
-        return sub.size();
-    }
+        return *std::max_element(dp.begin(), dp.end());
+    } 
 };
