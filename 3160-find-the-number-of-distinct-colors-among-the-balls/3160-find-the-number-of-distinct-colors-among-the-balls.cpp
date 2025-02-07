@@ -1,11 +1,10 @@
 class Solution {
 public:
     vector<int> queryResults(int limit, vector<vector<int>>& queries) {
-        std::unordered_set<int> distinct_color;
         std::unordered_map<int, int> color_directory, color_count;
 
         std::vector<int> query_answer;
-        for (auto q : queries) {
+        for (auto& q : queries) {
             auto ball = q[0], color = q[1];
             if (!color_directory.contains(ball)) {
                 color_directory[ball] = color;
