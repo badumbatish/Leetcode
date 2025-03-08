@@ -1,30 +1,26 @@
 class Solution {
+    using Graph = std::map<int, std::vector<std::pair<int, int>>>;
+
+    Graph make_graph(int n, vector<vector<int>>& flight) {
+        Graph g;
+        for (auto &v: flight) {
+            auto a = v[0], b = v[1], c = v[2];
+            g[b].push_back({a, c});
+        }
+
+        return g;
+    }
 public:
     int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
-        vector<vector<pair<int, int>>> adj(n);
-        for (auto& e : flights) {
-            adj[e[0]].push_back({e[1], e[2]});
-        }
-        vector<int> dist(n, numeric_limits<int>::max());
-        queue<pair<int, int>> q;
-        q.push({src, 0});
-        int stops = 0;
+        auto graph = make_graph(n, flights);
+        std::vector<std::vector<int>> dist(k+2, std::vector<int>(n, INT_MAX /2));
+        dist[0][src] = 0;
 
-        while (stops <= k && !q.empty()) {
-            int sz = q.size();
-            // Iterate on current level.
-            while (sz--) {
-                auto [node, distance] = q.front();
-                q.pop();
-                // Iterate over neighbors of popped node.
-                for (auto& [neighbour, price] : adj[node]) {
-                    if (price + distance >= dist[neighbour]) continue;
-                    dist[neighbour] = price + distance;
-                    q.push({neighbour, dist[neighbour]});
-                }
-            }
-            stops++;
+        for (int i = 1; i <= k + 1; i++){
+            for (auto [node, neighbors] : graph) 
+                for (auto [neighbor, weight] : neighbors) 
+                    dist[i][node] = std::min({dist[i][node], dist[i-1][node], dist[i-1][neighbor] + weight});
         }
-        return dist[dst] == numeric_limits<int>::max() ? -1 : dist[dst];
+        return dist[k + 1][dst] == INT_MAX / 2 ? -1 : dist[k+1][dst]; 
     }
 };
