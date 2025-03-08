@@ -1,29 +1,29 @@
 class Solution {
+    using Result = std::vector<std::vector<int>>;
+    using Combination = std::vector<int>;
+
+    Result result;
+    Combination temp_combination; 
     int target;
-    std::vector<std::vector<int>> result;
-    std::vector<int> temp;
-
 public:
-    std::vector<std::vector<int>> combinationSum(std::vector<int>&candidates, int target) {
-        this->target = target;
-
-        helper(0, candidates, 0);
-
-        return result;
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+       this->target = target; 
+        dfs(0, 0, candidates);
+       return result;
     }
 
-
-    void helper(int sum, std::vector<int> &candidates, int start) {
-        if (sum == target) {
-            result.push_back(temp);
-        } else if (sum < target) {
-            for (int i = start; i < candidates.size(); i++) {
-                temp.push_back(candidates[i]);
-                helper(sum + candidates[i], candidates, i);
-                temp.pop_back();
+    void dfs(int index, int sum, std::vector<int>& candidates) {
+        if (sum > target) return;
+        else if (sum == target) {
+           result.push_back(temp_combination);
+           return;
+        }  else {
+            for (int i = index; i < candidates.size(); i++) {
+                temp_combination.push_back(candidates[i]);
+                dfs(i, sum + candidates[i], candidates);
+                temp_combination.pop_back();
             }
         }
-
-        return;
+        
     }
 };
